@@ -1,0 +1,25 @@
+.footer {
+  position: sticky;
+  bottom: 0;
+  border-top: 1px solid #ccc;
+  padding: 24px 0 16px 0;
+  background: #f5f6f7;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  margin-left: 32px;
+}
+.footer-logo-img {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+}
+.footer-logo-text {
+  font-weight: bold;
+  font-size: 16px;
+  color: #222;
+}

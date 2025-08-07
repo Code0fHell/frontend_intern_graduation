@@ -1,0 +1,143 @@
+/* Root layout */
+.carlist-root {
+  background: #f7f7f7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.carlist-main {
+  flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 16px 48px 16px;
+}
+
+/* Filters */
+.carlist-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.carlist-filters input,
+.carlist-filters select {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  min-width: 180px;
+  background: #fafbfc;
+  transition: border 0.2s;
+}
+
+.carlist-filters input:focus,
+.carlist-filters select:focus {
+  border: 1.5px solid #00cfff;
+  outline: none;
+}
+
+/* Car List */
+.carlist-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  justify-content: flex-start;
+}
+
+/* Car Card */
+.carlist-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+}
+
+.carlist-card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.13);
+  border: 1.5px solid #00cfff;
+}
+
+.carlist-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background: #eee;
+}
+
+.carlist-info {
+  padding: 18px 16px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.carlist-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: #222;
+}
+
+.carlist-desc {
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+
+.carlist-location {
+  color: #888;
+  font-size: 0.97rem;
+  margin-bottom: 4px;
+}
+
+.carlist-price {
+  font-weight: 700;
+  color: #00cfff;
+  font-size: 1.08rem;
+  margin-top: 4px;
+  text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .carlist-list {
+    gap: 18px;
+  }
+  .carlist-card {
+    width: 46vw;
+    min-width: 260px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .carlist-main {
+    padding: 12px 2px 32px 2px;
+  }
+  .carlist-filters {
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 8px;
+  }
+  .carlist-card {
+    width: 100%;
+    min-width: 0;
+  }
+  .carlist-img {
+    height: 140px;
+  }
+}

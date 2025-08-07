@@ -1,0 +1,56 @@
+.phuphi-box {
+    background: #f6fff7;
+    border: 1.5px solid #22c55e;
+    border-radius: 12px;
+    padding: 18px 18px 8px 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-width: 520px;
+}
+
+.phuphi-item {
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #b6e4c7;
+}
+
+.phuphi-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #15803d;
+}
+
+.phuphi-title {
+    margin-right: 8px;
+}
+
+.phuphi-price {
+    margin-left: auto;
+    color: #22c55e;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.phuphi-desc {
+    color: #555;
+    font-size: 14px;
+    margin-left: 28px;
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+.phuphi-input {
+    margin-left: 28px;
+    margin-top: 4px;
+}
+
+.phuphi-input input[type="number"] {
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 15px;
+    width: 80px;
+}

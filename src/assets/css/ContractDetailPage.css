@@ -1,0 +1,165 @@
+.contract-root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f6f8fa;
+}
+
+.contract-detail-container {
+    flex: 1;
+    max-width: 700px;
+    margin: 36px auto 24px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: 40px 36px 32px 36px;
+    font-size: 18px;
+}
+
+.contract-detail-container.contract-detail-large {
+    max-width: 900px;
+    min-width: 700px;
+    width: 90vw;
+    margin: 32px auto 24px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    padding: 40px 48px 32px 48px;
+}
+
+.contract-detail-large {
+    font-size: 20px;
+}
+
+.contract-detail-section {
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.contract-detail-section h3 {
+    margin-bottom: 8px;
+    color: #1e293b;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.contract-detail-actions {
+    margin-top: 32px;
+    display: flex;
+    gap: 18px;
+}
+
+.contract-btn {
+    font-size: 17px;
+    padding: 10px 28px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.contract-btn-approve {
+    background: #22c55e;
+    color: #fff;
+}
+.contract-btn-approve:hover:not(:disabled) {
+    background: #16a34a;
+}
+
+.contract-btn-cancel {
+    background: #ef4444;
+    color: #fff;
+}
+.contract-btn-cancel:hover:not(:disabled) {
+    background: #b91c1c;
+}
+
+.contract-btn-update {
+    background: #3b82f6;
+    color: #fff;
+    font-size: 15px;
+    padding: 6px 18px;
+}
+.contract-btn-update:hover:not(:disabled) {
+    background: #2563eb;
+}
+
+.contract-btn-liquidate {
+    background: #f59e42;
+    color: #fff;
+}
+.contract-btn-liquidate:hover:not(:disabled) {
+    background: #ea580c;
+}
+
+.contract-detail-container h2 {
+    font-size: 28px;
+    color: #1e293b;
+    font-weight: 800;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+}
+
+.contract-detail-container > div {
+    font-size: 18px;
+}
+
+@media (max-width: 900px) {
+    .contract-detail-container {
+        padding: 18px 4px 18px 4px;
+        font-size: 15px;
+    }
+    .contract-detail-large {
+        font-size: 16px;
+    }
+    .contract-detail-section h3 {
+        font-size: 17px;
+    }
+    .contract-detail-container h2 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .contract-detail-container.contract-detail-large {
+        max-width: 98vw;
+        min-width: unset;
+        padding: 24px 8px;
+    }
+}
+
+footer,
+.footer {
+    margin-top: auto !important;
+    width: 100%;
+}
+
+/* Thêm vào ContractDetailPage.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px 28px;
+    min-width: 340px;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.12);
+    max-width: 95vw;
+}
+.modal-content h3 {
+    margin-bottom: 18px;
+    font-size: 22px;
+    color: #1e293b;
+    font-weight: 700;
+}

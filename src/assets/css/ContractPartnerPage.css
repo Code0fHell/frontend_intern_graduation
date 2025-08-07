@@ -1,0 +1,52 @@
+.contract-partner-root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f5f7fa;
+}
+
+.contract-partner-list-container {
+    flex: 1;
+    max-width: 1000px;
+    margin: 32px auto 24px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 32px 24px;
+}
+
+.contract-partner-list-container h2 {
+    margin-bottom: 24px;
+    font-size: 1.5rem;
+    color: #1976d2;
+    font-weight: 600;
+    text-align: center;
+}
+
+.contract-partner-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fafbfc;
+}
+
+.contract-partner-table th,
+.contract-partner-table td {
+    border: 1px solid #e0e6ed;
+    padding: 12px 16px;
+    text-align: left;
+}
+
+.contract-partner-table th {
+    background: #e3eaf6;
+    color: #2d3a4a;
+    font-weight: 500;
+}
+
+.contract-partner-table tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+.contract-partner-table tr:hover {
+    background: #e6f0fa;
+    transition: background 0.2s;
+}

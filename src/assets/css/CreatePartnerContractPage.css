@@ -1,0 +1,103 @@
+.create-contract-root {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 32px 0 48px 0;
+}
+
+.create-contract-title {
+    margin-bottom: 24px;
+    color: #2d3a4b;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.create-contract-form {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+    padding: 32px 40px;
+    min-width: 340px;
+    max-width: 420px;
+    width: 100%;
+}
+
+.create-contract-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.create-contract-label {
+    width: 120px;
+    color: #444;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.create-contract-value {
+    color: #222;
+    font-size: 1rem;
+    margin-left: 8px;
+}
+
+.create-contract-input {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid #cfd8dc;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-left: 8px;
+}
+
+.create-contract-textarea {
+    flex: 1;
+    min-height: 60px;
+    padding: 6px 10px;
+    border: 1px solid #cfd8dc;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-left: 8px;
+    resize: vertical;
+}
+
+.create-contract-btn {
+    margin-top: 18px;
+    width: 100%;
+    padding: 10px 0;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.create-contract-btn:hover {
+    background: #125ea2;
+}
+
+.create-contract-terms {
+    margin-top: 24px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: 1rem;
+}
+.create-contract-terms h4 {
+    margin-bottom: 10px;
+    color: #1976d2;
+    font-size: 1.1rem;
+}
+.create-contract-terms ul {
+    margin: 0;
+    padding-left: 18px;
+}
+.create-contract-terms li {
+    margin-bottom: 6px;
+}

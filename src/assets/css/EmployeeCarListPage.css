@@ -1,0 +1,69 @@
+.employee-car-root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f5f7fa;
+}
+
+.employee-car-list-container {
+    flex: 1;
+    max-width: 1400px;
+    margin: 32px auto 24px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 32px 24px;
+}
+
+.employee-car-list-container h2 {
+    margin-bottom: 24px;
+    font-size: 2rem;
+    color: #1976d2;
+    font-weight: 600;
+    text-align: center;
+}
+
+.employee-car-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fafbfc;
+    font-size: 1.15rem;
+}
+
+.employee-car-table th,
+.employee-car-table td {
+    border: 1.5px solid #e0e6ed;
+    padding: 16px 20px;
+    text-align: left;
+}
+
+.employee-car-table th {
+    background: #e3eaf6;
+    color: #2d3a4a;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.employee-car-table tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+.employee-car-table tr:hover {
+    background: #e6f0fa;
+    transition: background 0.2s;
+}
+
+.employee-car-action-btn {
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 22px;
+    font-size: 1.08rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.employee-car-action-btn:hover {
+    background: #125ea2;
+}

@@ -1,0 +1,323 @@
+/* Layout */
+.car-detail-root {
+    background: #fafbfc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.car-detail-main {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 16px 48px 16px;
+}
+
+.car-detail-content {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.car-detail-left {
+    flex: 1.2;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    padding: 32px 28px 28px 28px;
+}
+
+.car-detail-right {
+    flex: 0.9;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    padding: 28px 24px 24px 24px;
+    min-width: 340px;
+    max-width: 400px;
+    position: sticky;
+    top: 32px;
+}
+
+/* Car Image */
+.car-detail-img {
+    width: 100%;
+    max-width: 420px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    background: #f2f2f2;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Title & Star */
+.car-detail-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: space-between;
+}
+
+.car-detail-star {
+    color: #ffc107;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Sections */
+.car-detail-section {
+    margin-bottom: 22px;
+}
+
+.car-detail-label {
+    font-size: 1.08rem;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #222;
+}
+
+.car-detail-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    color: #444;
+    font-size: 1rem;
+}
+
+.car-detail-section ul {
+    padding-left: 18px;
+    margin: 0;
+}
+
+.car-detail-section li {
+    margin-bottom: 4px;
+}
+
+/* Tài sản cầm cố */
+.car-detail-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.car-detail-section input[type="radio"] {
+    margin-right: 8px;
+}
+
+/* Right column - Tổng tiền */
+.car-detail-total {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.car-detail-total-value {
+    color: #4cd964;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+/* Date/time input */
+.car-detail-section input[type="datetime-local"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    background: #fafbfc;
+}
+
+/* Đơn giá thuê */
+.car-detail-section > div:last-child {
+    font-weight: 600;
+    color: #00b894;
+    margin-top: 2px;
+}
+
+/* Đặt thuê button */
+.car-detail-btn {
+    width: 100%;
+    background: #4cd964;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 0;
+    margin: 18px 0 24px 0;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.car-detail-btn:hover {
+    background: #38b653;
+}
+
+/* Phụ phí phát sinh */
+.car-detail-fee-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.car-detail-fee-list li {
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+}
+.car-detail-fee-list li:last-child {
+    border-bottom: none;
+}
+.car-detail-fee-value {
+    float: right;
+    color: #4cd964;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+.car-detail-fee-desc {
+    color: #888;
+    font-size: 0.97rem;
+    margin-top: 2px;
+    margin-left: 2px;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+    .car-detail-content {
+        flex-direction: column;
+        gap: 24px;
+    }
+    .car-detail-right {
+        position: static;
+        max-width: 100%;
+        min-width: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .car-detail-main {
+        padding: 8px 2px 24px 2px;
+    }
+    .car-detail-left,
+    .car-detail-right {
+        padding: 12px 6px;
+    }
+    .car-detail-img {
+        height: 160px;
+    }
+    .car-detail-title {
+        font-size: 1.2rem;
+    }
+}
+
+.car-detail-gallery {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+.car-detail-gallery-top {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 28px;
+    align-items: flex-start;
+}
+.car-detail-gallery-main {
+    flex: 2;
+}
+.car-detail-gallery-main img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 14px;
+    background: #f2f2f2;
+}
+.car-detail-gallery-thumbs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-end;
+}
+.car-detail-thumb {
+    width: 160px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    margin-bottom: 2px;
+    background: #f2f2f2;
+    transition: border 0.2s;
+}
+.car-detail-thumb.selected,
+.car-detail-thumb:hover {
+    border: 2px solid #4cd964;
+}
+.car-detail-gallery-all {
+    margin-top: 8px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1.5px solid #4cd964;
+    background: #fff;
+    color: #222;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.car-detail-gallery-all:hover {
+    background: #eafff1;
+}
+
+/* Comment section */
+.car-detail-section .car-detail-label {
+    margin-bottom: 8px;
+}
+.car-detail-comment-form textarea {
+    width: 100%;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1rem;
+    resize: vertical;
+}
+.car-detail-comment-form button {
+    margin-top: 8px;
+}
+.car-detail-comment-note {
+    color: #888;
+    font-size: 0.98rem;
+    margin-bottom: 10px;
+}
+.car-detail-comments-list {
+    margin-top: 10px;
+}
+.car-detail-comment {
+    background: #f7f7f7;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+}
+.car-detail-comment-user {
+    font-weight: 600;
+    color: #222;
+}
+.car-detail-comment-content {
+    margin: 4px 0 2px 0;
+}
+.car-detail-comment-date {
+    color: #888;
+    font-size: 0.95rem;
+}
