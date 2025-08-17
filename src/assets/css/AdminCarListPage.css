@@ -5,9 +5,16 @@
     background: #f5f7fa;
 }
 
+.admin-car-detail-btn {
+    padding: 10px 40px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
 .admin-car-list-container {
     flex: 1;
-    max-width: 1200px;
+    max-width: 1490px;
     margin: 32px auto 24px auto;
     background: #fff;
     border-radius: 12px;

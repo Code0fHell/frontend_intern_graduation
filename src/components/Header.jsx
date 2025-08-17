@@ -40,7 +40,9 @@ function Header() {
                                 </button>
                                 <button
                                     className="header-link"
-                                    onClick={() => navigate("/contracts")}
+                                    onClick={() =>
+                                        navigate("/contracts_customer")
+                                    }
                                 >
                                     Danh sách hợp đồng
                                 </button>
@@ -66,7 +68,15 @@ function Header() {
                                         navigate("/partner-contracts")
                                     }
                                 >
-                                    Danh sách hợp đồng
+                                    Danh sách hợp đồng cho thuê
+                                </button>
+                                <button
+                                    className="header-link"
+                                    onClick={() =>
+                                        navigate("/partner/rental-contracts")
+                                    }
+                                >
+                                    Danh sách hợp đồng thuê xe
                                 </button>
                             </>
                         )}
@@ -74,15 +84,27 @@ function Header() {
                             <>
                                 <button
                                     className="header-link"
-                                    onClick={() => navigate("/employee-cars")}
+                                    onClick={() =>
+                                        navigate("/employee/rental-contracts")
+                                    }
                                 >
-                                    Danh sách xe
+                                    Hợp đồng thuê xe
                                 </button>
                                 <button
                                     className="header-link"
-                                    onClick={() => navigate("/contracts")}
+                                    onClick={() =>
+                                        navigate("/employee/partner-contracts")
+                                    }
                                 >
-                                    Danh sách hợp đồng
+                                    Hợp đồng cho thuê
+                                </button>
+                                <button
+                                    className="header-link"
+                                    onClick={() =>
+                                        navigate("/invoice-list")
+                                    }
+                                >
+                                    Hóa đơn
                                 </button>
                             </>
                         )}
@@ -93,6 +115,26 @@ function Header() {
                                     onClick={() => navigate("/admin/cars")}
                                 >
                                     Danh sách xe
+                                </button>
+                                <button
+                                    className="header-link"
+                                    onClick={() =>
+                                        navigate("/admin/partner-contracts")
+                                    }
+                                >
+                                    Danh sách hợp đồng cho thuê
+                                </button>
+                                <button
+                                    className="header-link"
+                                    onClick={() => navigate("/admin/rental-contracts")}
+                                >
+                                    Danh sách hợp đồng thuê xe
+                                </button>
+                                 <button
+                                    className="header-link"
+                                    onClick={() => navigate("/admin/black-list")}
+                                >
+                                    Danh sách đen
                                 </button>
                                 <button
                                     className="header-link"

@@ -105,13 +105,10 @@ function CarListPage() {
             fuelType: filters.nhienLieu,
             seats: filters.soGhe ? parseInt(filters.soGhe) : undefined,
             tinh: filters.tinh,
-            pickupDateTime: filters.pickupDateTime
-                ? new Date(filters.pickupDateTime)
-                : null,
-            returnDateTime: filters.returnDateTime
-                ? new Date(filters.returnDateTime)
-                : null,
+            pickupDateTime: new Date(filters.pickupDateTime).toISOString().replace("T", " ").slice(0, 19),
+            returnDateTime: new Date(filters.returnDateTime).toISOString().replace("T", " ").slice(0, 19),
         };
+        console.log("payload: " + JSON.stringify(payload));
         try {
             const res = await axios.post(
                 "http://localhost:8080/api/renting/search-cars",

@@ -1,9 +1,10 @@
 .partner-car-page-container {
+    min-height: 65vh;
     max-width: 1100px;
     margin: 32px auto;
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
     padding: 32px 24px;
 }
 
@@ -20,7 +21,8 @@
     margin-bottom: 24px;
 }
 
-.partner-car-table th, .partner-car-table td {
+.partner-car-table th,
+.partner-car-table td {
     padding: 12px 10px;
     border-bottom: 1px solid #f1f1f1;
     text-align: left;
@@ -52,4 +54,54 @@
 .partner-car-status.active {
     background: #dcfce7;
     color: #166534;
+}
+
+.partner-car-card-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.partner-car-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #0001;
+    width: 260px;
+    padding: 12px;
+    transition: box-shadow 0.2s;
+}
+
+.partner-car-card:hover {
+    box-shadow: 0 4px 16px #0002;
+}
+
+.partner-car-card-img {
+    margin-bottom: 8px;
+}
+
+.partner-car-card-title {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.partner-car-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.partner-car-status.waiting {
+    background: #fde68a;
+    color: #b45309;
+}
+.partner-car-status.active {
+    background: #bbf7d0;
+    color: #166534;
+}
+.partner-car-status.danger {
+    background: #fecaca;
+    color: #991b1b;
 }

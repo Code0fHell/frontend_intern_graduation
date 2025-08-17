@@ -1,0 +1,128 @@
+.car-detail-root {
+    background: #fafafa;
+    min-height: 100vh;
+}
+.car-detail-main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 0;
+}
+.car-detail-gallery {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+.car-detail-gallery-main img {
+    width: 400px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+.car-detail-gallery-thumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+.car-detail-thumb {
+    border: 2px solid #eee;
+    border-radius: 8px;
+    width: 70px;
+    height: 50px;
+    object-fit: cover;
+    cursor: pointer;
+    margin-right: 8px;
+}
+.car-detail-add-thumb {
+    display: inline-block;
+    width: 70px;
+    height: 50px;
+    border: 2px dashed #aaa;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 32px;
+    color: #888;
+    cursor: pointer;
+    margin-right: 8px;
+    background: #fafafa;
+}
+.car-detail-modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #0005;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.car-detail-modal {
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px 24px 24px 24px;
+    min-width: 340px;
+    position: relative;
+    box-shadow: 0 4px 24px #0002;
+}
+.car-detail-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 28px;
+    color: #888;
+    cursor: pointer;
+}
+.car-detail-section {
+    margin-bottom: 24px;
+}
+.car-detail-label {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+.car-detail-features {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.car-detail-feature-title {
+    color: #22c55e;
+    font-weight: 500;
+}
+.car-detail-tiennghi-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.car-detail-tiennghi-item {
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 15px;
+    color: #333;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.contract-btn {
+    background: #22c55e;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+.contract-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}

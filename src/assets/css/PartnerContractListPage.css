@@ -1,0 +1,45 @@
+.partner-contract-list-container {
+    min-height: 80vh;
+    padding-bottom: 40px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Bộ lọc rõ ràng hơn */
+.contract-filter-row {
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 16px 12px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+.contract-filter-row > div {
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+}
+.contract-filter-row label {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #222;
+}
+.contract-filter-row input,
+.contract-filter-row select {
+    padding: 7px 8px;
+    margin: 0;
+    border-radius: 5px;
+    border: 1px solid #b5b5b5;
+    font-size: 15px;
+    background: #fff;
+    outline: none;
+    transition: border 0.2s;
+}
+.contract-filter-row input:focus,
+.contract-filter-row select:focus {
+    border: 1.5px solid #22c55e;
+}

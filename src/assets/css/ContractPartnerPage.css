@@ -24,6 +24,7 @@
 }
 
 .contract-partner-table {
+    /* min-width: 1390px; */
     width: 100%;
     border-collapse: collapse;
     background: #fafbfc;

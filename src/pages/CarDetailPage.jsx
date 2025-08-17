@@ -75,22 +75,18 @@ function CarDetailPage() {
         const hopDongThue = {
             otoId: id,
             khachHangId: user.id,
-            thoiGianNhan: new Date(ngayNhan).toISOString(),
-            thoiGianTra: new Date(ngayTra).toISOString(),
+            thoiGianNhan: new Date(ngayNhan).getTime(),
+            thoiGianTra: new Date(ngayTra).getTime(),
             moTa: carInfo.moTa,
             giaThue: carInfo.gia,
         };
+        console.log("hopdong: " + JSON.stringify(hopDongThue));
         try {
-            const res = await axios.post(
-                "http://localhost:8080/api/renting/hop-dong-thue",
-                hopDongThue
+            await axios.post(
+                "http://localhost:8080/api/hop-dong-thue", hopDongThue
             );
-            if (res.status === 201) {
-                alert("Đặt thuê thành công!");
-                navigate("/contracts");
-            } else {
-                alert("Đặt thuê thất bại, ô tô không tồn tại!");
-            }
+            alert("Đặt thuê thành công!");
+            navigate("/contracts_customer");
         } catch (error) {
             alert("Lỗi kết nối server hoặc dữ liệu không hợp lệ!");
         }

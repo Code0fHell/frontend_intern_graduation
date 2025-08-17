@@ -1,145 +1,180 @@
 .register-form-container {
-  background: #fff;
-  border-radius: 12px;
-  margin-top: 24px;
-  padding: 32px 32px 24px 32px;
-  max-width: 700px;
-  width: 100%;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    background: #fff;
+    border-radius: 12px;
+    margin-top: 24px;
+    padding: 32px 32px 24px 32px;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .register-stepper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 8px;
 }
 
 .register-step {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #f2f2f2;
-  color: #888;
-  font-weight: 600;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #f2f2f2;
+    color: #888;
+    font-weight: 600;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .register-step.active {
-  background: #4cd964;
-  color: #fff;
+    background: #4cd964;
+    color: #fff;
 }
 
 .register-step-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 18px;
-  font-size: 1.05rem;
-  color: #888;
-  font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    font-size: 1.05rem;
+    color: #888;
+    font-weight: 500;
 }
 
 .register-step-labels span.active {
-  color: #222;
-  font-weight: 700;
+    color: #222;
+    font-weight: 700;
 }
 
 .register-form-step {
-  margin-top: 18px;
+    margin-top: 18px;
 }
 
 .register-form-group {
-  margin-bottom: 28px;
+    margin-bottom: 28px;
 }
 
 .register-form-note {
-  color: #e53935;
-  font-size: 0.98rem;
-  margin-bottom: 8px;
+    color: #e53935;
+    font-size: 0.98rem;
+    margin-bottom: 8px;
 }
 
 .register-form-row {
-  display: flex;
-  gap: 18px;
-  margin-bottom: 14px;
+    display: flex;
+    gap: 18px;
+    margin-bottom: 14px;
 }
 
 .register-form-row > div {
-  flex: 1;
+    flex: 1;
 }
 
 .register-form-input,
 .register-form-row select {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1.5px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  margin-top: 4px;
-  background: #fafbfc;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-top: 4px;
+    background: #fafbfc;
 }
 
 .register-form-input:focus,
 .register-form-row select:focus {
-  border: 1.5px solid #4cd964;
-  outline: none;
+    border: 1.5px solid #4cd964;
+    outline: none;
 }
 
 .register-form-actions {
-  display: flex;
-  gap: 14px;
-  justify-content: flex-end;
-  margin-top: 18px;
+    display: flex;
+    gap: 14px;
+    justify-content: flex-end;
+    margin-top: 18px;
 }
 
 .register-form-btn {
-  background: #4cd964;
-  color: #fff;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 28px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
+    background: #4cd964;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 28px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
 }
 
 .register-form-btn:disabled {
-  background: #bdbdbd;
-  cursor: not-allowed;
+    background: #bdbdbd;
+    cursor: not-allowed;
 }
 
 .register-features-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 8px;
 }
 .register-feature-btn {
-  width: 200px;
-  min-height: 80px;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 10px;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: border 0.2s, background 0.2s;
-  margin-bottom: 8px;
+    width: 200px;
+    min-height: 80px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border 0.2s, background 0.2s;
+    margin-bottom: 8px;
 }
 .register-feature-btn.selected,
 .register-feature-btn:hover {
-  border: 1.5px solid #4cd964;
-  background: #f6fff8;
+    border: 1.5px solid #4cd964;
+    background: #f6fff8;
 }
 .register-feature-icon {
-  font-size: 1.5rem;
-  margin-bottom: 4px;
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+    font-size: 15px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    outline: none;
+    transition: border 0.2s;
+}
+
+select:focus {
+    border: 1.5px solid #22c55e;
+    background: #fff;
+}
+
+.car-image-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+}
+.car-image-meta label {
+    font-size: 13px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.car-image-meta input[type="text"] {
+    width: 100%;
+    margin-top: 2px;
+    font-size: 12px;
 }

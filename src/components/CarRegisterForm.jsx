@@ -10,6 +10,15 @@ function CarRegisterForm() {
     const [step, setStep] = useState(1);
     // Thêm state cho hình ảnh
     const [images, setImages] = useState([]);
+    // Thêm state cho thuộc tính ảnh
+    const [imageMeta, setImageMeta] = useState([
+        // Mặc định cho 5 ảnh, có thể mở rộng
+        { giayToXe: false, thumnail: false, ghiChu: "" },
+        { giayToXe: false, thumnail: false, ghiChu: "" },
+        { giayToXe: false, thumnail: false, ghiChu: "" },
+        { giayToXe: false, thumnail: false, ghiChu: "" },
+        { giayToXe: false, thumnail: false, ghiChu: "" },
+    ]);
     const [form, setForm] = useState({
         bienSo: "",
         hangXe: "",
@@ -23,6 +32,7 @@ function CarRegisterForm() {
         diaChi: "",
         tinhNang: [],
     });
+    const [giaThue, setGiaThue] = useState("");
 
     // Địa chỉ modal state
     const [showAddressModal, setShowAddressModal] = useState(false);
@@ -50,6 +60,16 @@ function CarRegisterForm() {
     const [provinces, setProvinces] = useState([]);
     const [districts, setDistricts] = useState([]);
     const [wards, setWards] = useState([]);
+
+    const tinhObj = provinces.find(
+        (p) => String(p.code) === String(address.tinh)
+    );
+    const quanObj = districts.find(
+        (d) => String(d.code) === String(address.quan)
+    );
+    const phuongObj = wards.find(
+        (w) => String(w.code) === String(address.phuong)
+    );
 
     // Lấy danh sách hãng xe khi load trang
     useEffect(() => {
@@ -108,6 +128,21 @@ function CarRegisterForm() {
         }
     }, [address.quan]);
 
+    // Khi chọn mẫu xe, tự động set số ghế theo mẫu xe nhưng vẫn cho chỉnh sửa
+    useEffect(() => {
+        if (form.mauXe && mauXeOptions.length > 0) {
+            const selectedMauXe = mauXeOptions.find(
+                (m) => String(m.id) === String(form.mauXe)
+            );
+            if (selectedMauXe && selectedMauXe.soGhe) {
+                setForm((prev) => ({
+                    ...prev,
+                    soGhe: String(selectedMauXe.soGhe),
+                }));
+            }
+        }
+    }, [form.mauXe, mauXeOptions]);
+
     function handleChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value });
     }
@@ -123,16 +158,6 @@ function CarRegisterForm() {
     }
 
     function handleApplyAddress() {
-        // Lấy object tỉnh, huyện, xã từ danh sách đã fetch
-        const tinhObj = provinces.find(
-            (p) => String(p.code) === String(address.tinh)
-        );
-        const quanObj = districts.find(
-            (d) => String(d.code) === String(address.quan)
-        );
-        const phuongObj = wards.find(
-            (w) => String(w.code) === String(address.phuong)
-        );
         // Ghép địa chỉ đầy đủ
         const diaChiStr = [
             address.soNha,
@@ -261,22 +286,17 @@ function CarRegisterForm() {
         setStep(step - 1);
     }
 
+    // format giá thuê
+    function formatCurrency(value) {
+        return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     // Tạo xe (chỉ gọi khi nhấn "Tiếp tục" ở bước thông tin)
     async function handleCreateCar() {
         try {
             const selectedFeatureIds = form.tinhNang
                 .map((key) => featuresList.find((f) => f.key === key)?.id)
                 .filter(Boolean);
-
-            const tinhObj = provinces.find(
-                (p) => String(p.code) === String(address.tinh)
-            );
-            const quanObj = districts.find(
-                (d) => String(d.code) === String(address.quan)
-            );
-            const phuongObj = wards.find(
-                (w) => String(w.code) === String(address.phuong)
-            );
 
             const payload = {
                 bienSo: form.bienSo,
@@ -299,15 +319,25 @@ function CarRegisterForm() {
 
             // Tạo xe trước, lưu lại otoId vào state
             const res = await axios.post("http://localhost:8080/cars", payload);
+            console.log("reSL: ", JSON.stringify(res.data));
             const otoId = res.data.id;
-            setForm((f) => ({ ...f, otoId })); // lưu id xe vào state
-            setStep(2); // chuyển sang bước hình ảnh
+            const diaChiId = res.data.diaChi.id;
+            setForm((f) => ({ ...f, otoId, diaChiId })); // lưu id xe vào state
+            setStep(2); // chuyển sang bước nhập giá thuê
         } catch (err) {
             alert("Đăng ký xe thất bại!" + err.message);
         }
     }
 
-    // Upload ảnh (chỉ gọi khi nhấn "Đăng ký" ở bước hình ảnh)
+    function handleImageMetaChange(idx, field, value) {
+        setImageMeta((prev) =>
+            prev.map((meta, i) =>
+                i === idx ? { ...meta, [field]: value } : meta
+            )
+        );
+    }
+
+    // Upload ảnh (gửi kèm meta)
     async function handleUploadImages() {
         try {
             const otoId = form.otoId;
@@ -317,22 +347,28 @@ function CarRegisterForm() {
             }
             for (let i = 0; i < images.length && i < 5; i++) {
                 const formData = new FormData();
-                
                 formData.append("file", images[i]);
-                // In rõ các giá trị trong formData
-                for (let pair of formData.entries()) {
-                    console.log(pair[0] + ": ", pair[1]);
-                }
+                // Đúng chuẩn backend: truyền JSON string cho anhCuaXeRequestDto
+                const meta = {
+                    giayToXe: imageMeta[i]?.giayToXe || false,
+                    thumnail: imageMeta[i]?.thumnail || false,
+                    ghiChu: imageMeta[i]?.ghiChu || "",
+                };
+                formData.append(
+                    "anhCuaXeRequestDto",
+                    new Blob([JSON.stringify(meta)], {
+                        type: "application/json",
+                    })
+                );
                 await axios.post(
                     `http://localhost:8080/image-of-car/uploads/${otoId}`,
-                    formData,
-                    { headers: { "Content-Type": "multipart/form-data" } }
+                    formData
                 );
             }
             alert("Đăng ký xe thành công!");
             navigate("/partner_cars");
         } catch (err) {
-            alert("Upload ảnh thất bại!" + err.message);
+            alert("Upload ảnh thất bại! " + err.message);
         }
     }
 
@@ -345,9 +381,62 @@ function CarRegisterForm() {
         });
     }
 
+    // xử lý nhập giá thuê
+    function handleGiaThueChange(e) {
+        setGiaThue(formatCurrency(e.target.value));
+    }
+
     // Xóa hình đã chọn
     function handleRemoveImage(index) {
         setImages((prev) => prev.filter((_, i) => i !== index));
+    }
+
+    async function handleUpdateGiaThue() {
+        try {
+            const otoId = form.otoId;
+            if (!otoId) {
+                alert("Vui lòng đăng ký xe trước!");
+                return;
+            }
+            // Map tiện nghi từ key sang id
+            const tienNghiIds = (form.tinhNang || [])
+                .map((key) => {
+                    const found = featuresList.find((f) => f.key === key);
+                    return found ? found.id : null;
+                })
+                .filter((id) => id !== null);
+
+            const diaChiId = form.diaChiId;
+
+            const payloadUpdate = {
+                bienSo: form.bienSo,
+                mauXeId: Number(form.mauXe),
+                moTa: form.moTa,
+                loaiNhienLieu: form.nhienLieu,
+                mucTieuThu: form.mucTieuThu,
+                namSanXuat: Number(form.namSX),
+                truyenDong: form.truyenDong,
+                soGhe: Number(form.soGhe),
+                trangThai: "CHO_DUYET",
+                gia: parseFloat(giaThue.replace(/,/g, "")),
+                doiTacId: user.id,
+                diaChi: {
+                    id: diaChiId,
+                    tinh: tinhObj?.name || "",
+                    quan: quanObj?.name || "",
+                    phuong: phuongObj?.name || "",
+                    soNha: address.soNha,
+                },
+                tienNghi: tienNghiIds,
+            };
+            await axios.put(
+                `http://localhost:8080/cars/${otoId}`,
+                payloadUpdate
+            );
+            setStep(3);
+        } catch (err) {
+            alert("Cập nhật giá thuê thất bại! " + err.message);
+        }
     }
 
     return (
@@ -361,10 +450,15 @@ function CarRegisterForm() {
                 <div className={`register-step ${step === 2 ? "active" : ""}`}>
                     2
                 </div>
+                <span>&gt;</span>
+                <div className={`register-step ${step === 3 ? "active" : ""}`}>
+                    3
+                </div>
             </div>
             <div className="register-step-labels">
                 <span className={step === 1 ? "active" : ""}>Thông tin</span>
-                <span className={step === 2 ? "active" : ""}>Hình ảnh</span>
+                <span className={step === 2 ? "active" : ""}>Cho thuê</span>
+                <span className={step === 3 ? "active" : ""}>Hình ảnh</span>
             </div>
             <hr />
 
@@ -432,11 +526,43 @@ function CarRegisterForm() {
                                     onChange={handleChange}
                                 >
                                     <option value="">Chọn số ghế</option>
-                                    {soGheOptions.map((s) => (
-                                        <option key={s} value={s}>
-                                            {s}
-                                        </option>
-                                    ))}
+                                    {/* Nếu đã chọn mẫu xe, hiển thị số ghế mặc định đầu tiên */}
+                                    {form.mauXe && mauXeOptions.length > 0
+                                        ? (() => {
+                                              const selectedMauXe =
+                                                  mauXeOptions.find(
+                                                      (m) =>
+                                                          String(m.id) ===
+                                                          String(form.mauXe)
+                                                  );
+                                              const defaultSoGhe =
+                                                  selectedMauXe?.soGhe;
+                                              const otherOptions =
+                                                  soGheOptions.filter(
+                                                      (s) =>
+                                                          String(s) !==
+                                                          String(defaultSoGhe)
+                                                  );
+                                              return [
+                                                  <option
+                                                      key={defaultSoGhe}
+                                                      value={defaultSoGhe}
+                                                  >
+                                                      {defaultSoGhe} (mặc định
+                                                      mẫu xe)
+                                                  </option>,
+                                                  ...otherOptions.map((s) => (
+                                                      <option key={s} value={s}>
+                                                          {s}
+                                                      </option>
+                                                  )),
+                                              ];
+                                          })()
+                                        : soGheOptions.map((s) => (
+                                              <option key={s} value={s}>
+                                                  {s}
+                                              </option>
+                                          ))}
                                 </select>
                             </div>
                             <div>
@@ -751,8 +877,54 @@ function CarRegisterForm() {
                 </div>
             )}
 
-            {/* Step 2: Hình ảnh */}
+            {/* Step 2: Giá cho thuê */}
             {step === 2 && (
+                <div className="register-form-step">
+                    <div className="register-form-group">
+                        <label>Giá cho thuê</label>
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                            }}
+                        >
+                            <input
+                                type="text"
+                                value={giaThue}
+                                onChange={handleGiaThueChange}
+                                placeholder="Nhập giá cho thuê"
+                                className="register-form-input"
+                                style={{ flex: 1 }}
+                            />
+                            <span>VNĐ</span>
+                        </div>
+                    </div>
+                    <div className="register-form-actions">
+                        <button
+                            className="register-form-btn"
+                            style={{
+                                background: "#fff",
+                                color: "#22c55e",
+                                border: "1px solid #22c55e",
+                            }}
+                            onClick={handlePrev}
+                        >
+                            Quay lại
+                        </button>
+                        <button
+                            className="register-form-btn"
+                            onClick={handleUpdateGiaThue}
+                            disabled={!giaThue}
+                        >
+                            Tiếp tục
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Step 3: Hình ảnh */}
+            {step === 3 && (
                 <div className="register-form-step">
                     <h2>Hình ảnh</h2>
                     <div style={{ marginBottom: 8 }}>
@@ -808,6 +980,55 @@ function CarRegisterForm() {
                                 >
                                     ×
                                 </button>
+                                {/* Thuộc tính ảnh */}
+                                <div className="car-image-meta">
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={
+                                                imageMeta[idx]?.giayToXe ||
+                                                false
+                                            }
+                                            onChange={(e) =>
+                                                handleImageMetaChange(
+                                                    idx,
+                                                    "giayToXe",
+                                                    e.target.checked
+                                                )
+                                            }
+                                        />{" "}
+                                        Giấy tờ xe
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={
+                                                imageMeta[idx]?.thumnail ||
+                                                false
+                                            }
+                                            onChange={(e) =>
+                                                handleImageMetaChange(
+                                                    idx,
+                                                    "thumnail",
+                                                    e.target.checked
+                                                )
+                                            }
+                                        />{" "}
+                                        Ảnh đại diện
+                                    </label>
+                                    <input
+                                        type="text"
+                                        placeholder="Ghi chú"
+                                        value={imageMeta[idx]?.ghiChu || ""}
+                                        onChange={(e) =>
+                                            handleImageMetaChange(
+                                                idx,
+                                                "ghiChu",
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                </div>
                             </div>
                         ))}
                         {/* Nút chọn hình */}
@@ -853,7 +1074,12 @@ function CarRegisterForm() {
                         )}
                     </div>
                     <div
-                        style={{ color: "#888", fontSize: 13, marginBottom: 8 }}
+                        style={{
+                            color: "#888",
+                            fontSize: 13,
+                            marginBottom: 20,
+                            paddingTop: 50,
+                        }}
                     >
                         {images.length}/5 ảnh (tối đa 5 ảnh)
                     </div>

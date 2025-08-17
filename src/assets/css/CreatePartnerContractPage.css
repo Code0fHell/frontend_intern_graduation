@@ -8,6 +8,7 @@
 }
 
 .create-contract-title {
+    text-align: center;
     margin-bottom: 24px;
     color: #2d3a4b;
     font-size: 2rem;
@@ -21,7 +22,7 @@
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
     padding: 32px 40px;
     min-width: 340px;
-    max-width: 420px;
+    max-width: 1390px;
     width: 100%;
 }
 
@@ -32,7 +33,7 @@
 }
 
 .create-contract-label {
-    width: 120px;
+    width: 140px;
     color: #444;
     font-weight: 500;
     font-size: 1rem;
@@ -45,12 +46,16 @@
 }
 
 .create-contract-input {
-    flex: 1;
+    max-width: 200px;
     padding: 6px 10px;
     border: 1px solid #cfd8dc;
     border-radius: 5px;
     font-size: 1rem;
     margin-left: 8px;
+}
+
+.create-contract-input-percentage {
+    max-width: 50px;
 }
 
 .create-contract-textarea {
@@ -66,20 +71,22 @@
 
 .create-contract-btn {
     margin-top: 18px;
-    width: 100%;
+    width: 350px;
     padding: 10px 0;
-    background: #1976d2;
+    background-color: #1976d2;
     color: #fff;
-    border: none;
+    border: 1px solid #fff;
     border-radius: 6px;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: 0.2s;
 }
 
 .create-contract-btn:hover {
-    background: #125ea2;
+    background: #fff !important;
+    border: 1px solid #1976d2;
+    color: #1976d2;
 }
 
 .create-contract-terms {
@@ -100,4 +107,44 @@
 }
 .create-contract-terms li {
     margin-bottom: 6px;
+}
+
+/* Quốc hiệu, tiêu ngữ căn giữa */
+.contract-header {
+    text-align: center;
+    margin-bottom: 16px;
+}
+.contract-nation {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+}
+.contract-motto {
+    font-size: 16px;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+/* Đại diện các bên trên cùng một hàng */
+.contract-signatures {
+    margin-top: 32px;
+    width: 100%;
+}
+.signature-section {
+    width: 100%;
+}
+.signature-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    margin-top: 12px;
+}
+.signature-column {
+    flex: 1;
+    text-align: center;
+}
+.signature-column p {
+    margin: 4px 0;
 }

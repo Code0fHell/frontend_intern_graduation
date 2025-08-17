@@ -8,16 +8,24 @@ import CarDetailPage from "./pages/CarDetailPage";
 import PartnerCarPage from "./pages/PartnerCarPage";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import ContractDetailPage from "./pages/ContractDetailPage";
-import ContractListPage from "./pages/ContractListPage";
+import ContractListPage_Customer from "./pages/ContractListPage_Customer";
 import AdminCarListPage from "./pages/AdminCarListPage";
 import CreateInvoicePage from "./pages/CreateInvoicePage";
 import InvoicePreviewPage from "./pages/InvoicePreviewPage";
 import CreatePartnerContractPage from "./pages/CreatePartnerContractPage";
-import EmployeeCarListPage from "./pages/EmployeeCarListPage";
 import ContractPartnerPage from "./pages/ContractPartnerPage";
+import ContractPartnerDetailPage from "./pages/ContractPartnerDetailPage";
 import PartnerContractDetailPage from "./pages/PartnerContractDetailPage";
 import CreatePartnerInvoicePage from "./pages/CreatePartnerInvoicePage";
 import PartnerInvoicePreviewPage from "./pages/PartnerInvoicePreviewPage";
+import PartnerContractListPage from "./pages/PartnerContractListPage";
+import PartnerRentalContractsPage from "./pages/PartnerRentalContractsPage";
+import EmployeeRentalContractsPage from "./pages/EmployeeRentalContractsPage";
+import EmployeePartnerContractsPage from "./pages/EmployeePartnerContractsPage";
+import InvoiceListPage from "./pages/InvoiceListPage";
+import PartnerCarDetailPage from "./pages/PartnerCarDetailPage";
+import AdminRentalContractsPage from "./pages/AdminRentalContractsPage";
+import AdminBlackListPage from "./pages/AdminBlackListPage";
 
 function RoleRouter() {
     const { user } = useAuth();
@@ -38,7 +46,7 @@ function RoleRouter() {
     }
 
     if (user.id?.includes("NV")) {
-        return <ContractListPage />;
+        return <EmployeeRentalContractsPage />;
     }
 
     if (user.id?.includes("QL")) {
@@ -62,14 +70,29 @@ function App() {
                     <Route path="/register" element={<SignUpPage />} />
                     <Route path="/cars" element={<CarListPage />} />
                     <Route path="/cars/:id" element={<CarDetailPage />} />
+                    <Route
+                        path="/contract-partner-detail/:id"
+                        element={<ContractPartnerDetailPage />}
+                    />
                     <Route path="/register-car" element={<CarRegisterPage />} />
                     <Route path="/partner_cars" element={<PartnerCarPage />} />
-                    <Route path="/contracts" element={<ContractListPage />} />
+                    <Route
+                        path="/contracts_customer"
+                        element={<ContractListPage_Customer />}
+                    />
                     <Route
                         path="/contracts/:id"
                         element={<ContractDetailPage />}
                     />
                     <Route path="/admin/cars" element={<AdminCarListPage />} />
+                    <Route
+                        path="/admin/rental-contracts"
+                        element={<AdminRentalContractsPage />}
+                    />
+                    <Route
+                        path="/admin/black-list"
+                        element={<AdminBlackListPage />}
+                    />
                     <Route
                         path="/create-invoice"
                         element={<CreateInvoicePage />}
@@ -81,10 +104,6 @@ function App() {
                     <Route
                         path="/create-contract/:id"
                         element={<CreatePartnerContractPage />}
-                    />
-                    <Route
-                        path="/employee-cars"
-                        element={<EmployeeCarListPage />}
                     />
                     <Route
                         path="/partner-contracts"
@@ -101,6 +120,27 @@ function App() {
                     <Route
                         path="/partner-invoice-preview"
                         element={<PartnerInvoicePreviewPage />}
+                    />
+                    <Route
+                        path="/admin/partner-contracts"
+                        element={<PartnerContractListPage />}
+                    />
+                    <Route
+                        path="/partner/rental-contracts"
+                        element={<PartnerRentalContractsPage />}
+                    />
+                    <Route
+                        path="/employee/rental-contracts"
+                        element={<EmployeeRentalContractsPage />}
+                    />
+                    <Route
+                        path="/employee/partner-contracts"
+                        element={<EmployeePartnerContractsPage />}
+                    />
+                    <Route path="/invoice-list" element={<InvoiceListPage />} />
+                    <Route
+                        path="/partner/car-detail/:id"
+                        element={<PartnerCarDetailPage />}
                     />
                 </Routes>
             </AuthProvider>
