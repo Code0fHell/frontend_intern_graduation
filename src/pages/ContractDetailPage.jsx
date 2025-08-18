@@ -11,8 +11,7 @@ function ContractDetailPage() {
     const navigate = useNavigate();
     const contract = location.state?.contract;
     const { user } = useAuth();
-    console.log("contract: ", contract);
-
+   
     const [loading, setLoading] = useState(false);
     const [localContract, setLocalContract] = useState(
         contract
@@ -25,8 +24,10 @@ function ContractDetailPage() {
     const [giaTriTaiSan, setGiaTriTaiSan] = useState("");
     const [moTaTaiSan, setMoTaTaiSan] = useState("");
     const [xacNhanLoading, setXacNhanLoading] = useState(false);
-    const [showBlackListBtn, setShowBlackListBtn] = useState(false);
-    const [blackListLoading, setBlackListLoading] = useState(false);
+    const [showSuggestBlackListModal, setShowSuggestBlackListModal] =
+        useState(false);
+    const [suggestReason, setSuggestReason] = useState("");
+    const [suggestLoading, setSuggestLoading] = useState(false);
 
     if (!contract)
         return (
@@ -62,31 +63,31 @@ function ContractDetailPage() {
         setLoading(false);
     };
 
-    // Thêm khách hàng vào danh sách đen
-    const handleAddToBlackList = async () => {
+    // Đề xuất thêm vào danh sách đen
+    const handleSuggestBlackList = async () => {
         if (!localContract.khachHang?.id || !localContract.id) {
             alert("Không tìm thấy thông tin khách hàng hoặc hợp đồng!");
             return;
         }
-        setBlackListLoading(true);
+        setSuggestLoading(true);
         try {
             const request = {
-                ngayThem: new Date(),
-                lyDo: "Vi phạm hợp đồng thuê xe",
-                quanLyId: user?.id,
+                ngayThem: new Date().toISOString().replace("T", " ").slice(0, 19),
+                lyDo: suggestReason,
+                quanLyId: "QL0002",
                 hopDongThueId: localContract.id,
-                trangThai: 0, // CHO_DUYET
+                trangThai: "0"
             };
             await axios.post(
                 "http://localhost:8080/api/danh-sach-den/create",
                 request
             );
-            alert("Đã thêm khách hàng vào danh sách đen!");
-            setShowBlackListBtn(false);
+            alert("Đã đề xuất thêm khách hàng vào danh sách đen!");
+            setShowSuggestBlackListModal(false);
         } catch {
-            alert("Thêm vào danh sách đen thất bại!");
+            alert("Đề xuất thất bại!");
         }
-        setBlackListLoading(false);
+        setSuggestLoading(false);
     };
 
     // Thanh lý hợp đồng
@@ -101,7 +102,6 @@ function ContractDetailPage() {
                 trangThai: res.data.trangThai,
             });
             alert("Thanh lý hợp đồng thành công!");
-            setShowBlackListBtn(true); // Hiển thị nút thêm vào danh sách đen
         } catch {
             alert("Thanh lý hợp đồng thất bại!");
         }
@@ -225,7 +225,6 @@ function ContractDetailPage() {
     const khachHang = localContract.khachHang || {};
     const doiTac = localContract.oto?.doiTac || {};
     const xe = localContract.oto || {};
-    console.log("ngày: " + JSON.stringify(localContract));
 
     useEffect(() => {
         if (localContract?.id && localContract?.oto?.doiTac?.id) {
@@ -244,7 +243,7 @@ function ContractDetailPage() {
                 .catch(() => {});
         }
     }, [localContract?.id, localContract?.oto?.doiTac?.id]);
-    console.log("taiSan: ", taiSan);
+
     return (
         <div className="contract-root">
             <Header />
@@ -577,6 +576,7 @@ function ContractDetailPage() {
                     </div>
                 </div>
 
+                {/* Các nút hành động */}
                 <div className="contract-detail-actions">
                     {isKH &&
                         localContract.trangThai === "CHO_DUYET" &&
@@ -606,24 +606,66 @@ function ContractDetailPage() {
                             Thanh lý hợp đồng
                         </button>
                     )}
-                    {/* Hiển thị nút thêm vào danh sách đen sau khi thanh lý */}
-                    {isDT && showBlackListBtn && (
+                </div>
+                {/* Nút đề xuất danh sách đen cho hợp đồng đã hết hạn */}
+                {localContract.trangThai === "HET_HAN_HOP_DONG" && (
+                    <div style={{ marginTop: 32, textAlign: "center" }}>
                         <button
                             className="contract-btn"
-                            style={{
-                                background: "#991b1b",
-                                color: "#fff",
-                                marginLeft: 12,
-                            }}
-                            onClick={handleAddToBlackList}
-                            disabled={blackListLoading}
+                            style={{ background: "#991b1b", color: "#fff" }}
+                            onClick={() => setShowSuggestBlackListModal(true)}
                         >
-                            Thêm khách hàng vào danh sách đen
+                            Đề xuất thêm vào danh sách đen
                         </button>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
             <Footer />
+            {/* Modal đề xuất danh sách đen */}
+            {showSuggestBlackListModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content" style={{ minWidth: 400 }}>
+                        <h3>Đề xuất thêm vào danh sách đen</h3>
+                        <div>
+                            <b>Khách hàng:</b> {localContract.khachHang?.hoTen}
+                        </div>
+                        <div>
+                            <b>Ngày thêm:</b> {new Date().toLocaleString()}
+                        </div>
+                        <div style={{ margin: "12px 0" }}>
+                            <label>Lý do:</label>
+                            <textarea
+                                value={suggestReason}
+                                onChange={(e) =>
+                                    setSuggestReason(e.target.value)
+                                }
+                                rows={3}
+                                style={{
+                                    width: "100%",
+                                    borderRadius: 6,
+                                    border: "1px solid #eee",
+                                    padding: 6,
+                                }}
+                            />
+                        </div>
+                        <button
+                            className="contract-btn"
+                            style={{ background: "#991b1b", color: "#fff" }}
+                            onClick={handleSuggestBlackList}
+                            disabled={suggestLoading || !suggestReason}
+                        >
+                            Xác nhận đề xuất
+                        </button>
+                        <button
+                            className="contract-btn"
+                            style={{ marginLeft: 12 }}
+                            onClick={() => setShowSuggestBlackListModal(false)}
+                        >
+                            Quay lại
+                        </button>
+                    </div>
+                </div>
+            )}
             {showModal && (
                 <div className="modal-overlay">
                     <div className="modal-content">

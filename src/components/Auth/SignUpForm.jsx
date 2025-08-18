@@ -20,6 +20,7 @@ function SignUpForm() {
     });
     const [error, setError] = useState("");
     const [showSuccess, setShowSuccess] = useState(false);
+    const [showError, setShowError] = useState(false);
 
     const [provinces, setProvinces] = useState([]);
     const [districts, setDistricts] = useState([]);
@@ -110,9 +111,9 @@ function SignUpForm() {
     async function handleSubmit(e) {
         e.preventDefault();
         setError("");
-        setShowSuccess("true");
+        setShowSuccess(false);
+        setShowError(false);
         try {
-            // Chỉ gửi tên tỉnh, quận, phường
             const payload = {
                 username: form.username,
                 password: form.password,
@@ -151,8 +152,10 @@ function SignUpForm() {
             }, 1500);
         } catch (err) {
             setError(
-                err.response?.data?.message || err.message || "Đăng ký thất bại"
+                "Tên đăng nhập, email hoặc số điện thoại đã tồn tại"
             );
+            setShowError(true);
+            setTimeout(() => setShowError(false), 2000);
         }
     }
 
@@ -177,6 +180,27 @@ function SignUpForm() {
                     }}
                 >
                     Đăng ký thành công! Đang chuyển sang trang đăng nhập...
+                </div>
+            )}
+            {/* Snackbar thông báo lỗi */}
+            {showError && error && (
+                <div
+                    style={{
+                        position: "fixed",
+                        top: 24,
+                        right: 24,
+                        background: "#ef4444",
+                        color: "#fff",
+                        padding: "16px 32px",
+                        borderRadius: 8,
+                        boxShadow: "0 2px 8px #aaa",
+                        zIndex: 9999,
+                        fontWeight: 600,
+                        fontSize: 18,
+                        transition: "all 0.3s",
+                    }}
+                >
+                    {error}
                 </div>
             )}
             <form
@@ -348,6 +372,27 @@ function SignUpForm() {
                 >
                     Đăng ký
                 </button>
+                {/* Dòng chuyển sang đăng nhập */}
+                <div
+                    style={{
+                        marginTop: 18,
+                        textAlign: "center",
+                        fontSize: 15,
+                    }}
+                >
+                    Đã có tài khoản?{" "}
+                    <span
+                        style={{
+                            color: "#2563eb",
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                            fontWeight: 500,
+                        }}
+                        onClick={() => navigate("/login")}
+                    >
+                        Đăng nhập ngay!
+                    </span>
+                </div>
             </form>
         </div>
     );

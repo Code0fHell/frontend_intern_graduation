@@ -4,7 +4,20 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 
-function AdminBlackListPage() {
+function getStatusColor(status) {
+    switch (status) {
+        case "CHO_DUYET":
+            return { background: "#fde68a", color: "#b45309" }; // vàng
+        case "OK":
+            return { background: "#bbf7d0", color: "#166534" }; // xanh lá
+        case "HUY":
+            return { background: "#fecaca", color: "#991b1b" }; // đỏ nhạt
+        default:
+            return { background: "#e0e7ef", color: "#334155" }; // xám
+    }
+}
+
+function BlackListPage() {
     const [blackList, setBlackList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState({
@@ -13,9 +26,12 @@ function AdminBlackListPage() {
         sdtKhachHang: "",
     });
     const [editItem, setEditItem] = useState(null);
-    const [editReason, setEditReason] = useState("");
+    const [editStatus, setEditStatus] = useState("");
     const [editLoading, setEditLoading] = useState(false);
     const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem("user"));
+    const isDT = user?.id?.includes("DT");
+    const isQL = user?.id?.includes("QL");
 
     useEffect(() => {
         fetchBlackList();
@@ -54,22 +70,25 @@ function AdminBlackListPage() {
         return matchThoiGian && matchTen && matchSdt;
     });
 
-    // Mở modal cập nhật lý do
+    // Mở modal cập nhật trạng thái
     const handleEdit = (item) => {
         setEditItem(item);
-        setEditReason(item.lyDo || "");
+        setEditStatus(item.trangThai || "CHO_DUYET");
     };
 
-    // Xác nhận cập nhật lý do
+    // Xác nhận cập nhật trạng thái
     const handleConfirmEdit = async () => {
         if (!editItem) return;
         setEditLoading(true);
         try {
+            let trangThaiNum = 0;
+            if (editStatus === "OK") trangThaiNum = 1;
+            else if (editStatus === "HUY") trangThaiNum = 2;
             await axios.put("http://localhost:8080/api/danh-sach-den/update", {
                 ...editItem,
-                lyDo: editReason,
+                trangThai: trangThaiNum,
             });
-            alert("Cập nhật thành công!");
+            alert("Cập nhật trạng thái thành công!");
             setEditItem(null);
             fetchBlackList();
         } catch {
@@ -146,14 +165,15 @@ function AdminBlackListPage() {
                                 <th>SĐT khách hàng</th>
                                 <th>Ngày thêm</th>
                                 <th>Lý do</th>
-                                <th>Hành động</th>
+                                <th>Trạng thái</th>
+                                {!isDT && <th>Hành động</th>}
                             </tr>
                         </thead>
                         <tbody>
                             {filteredList.length === 0 && (
                                 <tr>
                                     <td
-                                        colSpan={6}
+                                        colSpan={isDT ? 6 : 7}
                                         style={{ textAlign: "center" }}
                                     >
                                         Không có khách hàng nào trong danh sách
@@ -175,20 +195,48 @@ function AdminBlackListPage() {
                                     </td>
                                     <td>{item.lyDo}</td>
                                     <td>
-                                        <button
-                                            className="contract-btn"
-                                            onClick={() => handleEdit(item)}
+                                        <span
+                                            style={{
+                                                padding: "4px 12px",
+                                                borderRadius: 8,
+                                                fontWeight: 500,
+                                                fontSize: 15,
+                                                ...getStatusColor(
+                                                    item.trangThai
+                                                ),
+                                                display: "inline-block",
+                                            }}
                                         >
-                                            Cập nhật
-                                        </button>
+                                            {item.trangThai === "CHO_DUYET"
+                                                ? "Chờ duyệt"
+                                                : item.trangThai === "OK"
+                                                ? "Đã duyệt"
+                                                : item.trangThai === "HUY"
+                                                ? "Đã hủy"
+                                                : item.trangThai}
+                                        </span>
                                     </td>
+                                    {!isDT && (
+                                        <td>
+                                            {isQL && (
+                                                <button
+                                                    className="contract-btn"
+                                                    onClick={() =>
+                                                        handleEdit(item)
+                                                    }
+                                                >
+                                                    Cập nhật
+                                                </button>
+                                            )}
+                                        </td>
+                                    )}
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 )}
-                {/* Modal cập nhật lý do */}
-                {editItem && (
+                {/* Modal cập nhật trạng thái */}
+                {editItem && isQL && (
                     <div className="car-detail-modal-bg">
                         <div
                             className="car-detail-modal"
@@ -200,7 +248,7 @@ function AdminBlackListPage() {
                             >
                                 &times;
                             </span>
-                            <h3>Cập nhật lý do danh sách đen</h3>
+                            <h3>Cập nhật trạng thái danh sách đen</h3>
                             <div>
                                 <b>Khách hàng:</b> {editItem.khachHang?.hoTen}
                             </div>
@@ -216,26 +264,29 @@ function AdminBlackListPage() {
                                     : ""}
                             </div>
                             <div style={{ margin: "12px 0" }}>
-                                <label>Lý do:</label>
-                                <textarea
-                                    value={editReason}
+                                <label>Trạng thái:</label>
+                                <select
+                                    value={editStatus}
                                     onChange={(e) =>
-                                        setEditReason(e.target.value)
+                                        setEditStatus(e.target.value)
                                     }
-                                    rows={3}
                                     style={{
                                         width: "100%",
                                         borderRadius: 6,
                                         border: "1px solid #eee",
                                         padding: 6,
                                     }}
-                                />
+                                >
+                                    <option value="CHO_DUYET">Chờ duyệt</option>
+                                    <option value="OK">Đã duyệt</option>
+                                    <option value="HUY">Từ chối</option>
+                                </select>
                             </div>
                             <button
                                 className="contract-btn"
                                 style={{ background: "#0ea5e9", color: "#fff" }}
                                 onClick={handleConfirmEdit}
-                                disabled={editLoading || !editReason}
+                                disabled={editLoading}
                             >
                                 Xác nhận cập nhật
                             </button>
@@ -255,4 +306,4 @@ function AdminBlackListPage() {
     );
 }
 
-export default AdminBlackListPage;
+export default BlackListPage;

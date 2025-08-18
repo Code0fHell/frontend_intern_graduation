@@ -26,7 +26,6 @@ function PartnerCarPage() {
             .then(async (res) => {
                 setCars(res.data);
 
-                // Lấy ảnh cho từng xe giống CarListPage
                 const imagePromises = res.data.map((car) =>
                     axios
                         .get(

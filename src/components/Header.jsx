@@ -78,6 +78,12 @@ function Header() {
                                 >
                                     Danh sách hợp đồng thuê xe
                                 </button>
+                                <button
+                                    className="header-link"
+                                    onClick={() => navigate("/black-list")}
+                                >
+                                    Danh sách đen
+                                </button>
                             </>
                         )}
                         {isNV && (
@@ -130,9 +136,9 @@ function Header() {
                                 >
                                     Danh sách hợp đồng thuê xe
                                 </button>
-                                 <button
+                                <button
                                     className="header-link"
-                                    onClick={() => navigate("/admin/black-list")}
+                                    onClick={() => navigate("/black-list")}
                                 >
                                     Danh sách đen
                                 </button>

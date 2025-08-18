@@ -25,7 +25,7 @@ import EmployeePartnerContractsPage from "./pages/EmployeePartnerContractsPage";
 import InvoiceListPage from "./pages/InvoiceListPage";
 import PartnerCarDetailPage from "./pages/PartnerCarDetailPage";
 import AdminRentalContractsPage from "./pages/AdminRentalContractsPage";
-import AdminBlackListPage from "./pages/AdminBlackListPage";
+import BlackListPage from "./pages/BlackListPage";
 
 function RoleRouter() {
     const { user } = useAuth();
@@ -90,8 +90,8 @@ function App() {
                         element={<AdminRentalContractsPage />}
                     />
                     <Route
-                        path="/admin/black-list"
-                        element={<AdminBlackListPage />}
+                        path="/black-list"
+                        element={<BlackListPage />}
                     />
                     <Route
                         path="/create-invoice"
