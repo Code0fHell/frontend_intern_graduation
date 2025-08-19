@@ -30,7 +30,6 @@
 
 -   Đăng nhập: `POST /api/auth/login`
 -   Đăng ký: `POST /api/auth/register`
--   Lấy danh sách tỉnh/huyện/xã: `https://provinces.open-api.vn/api/p/`, `.../api/p/{tinh}?depth=2`, `.../api/d/{quan}?depth=2`
 
 ## Danh sách xe ([src/pages/CarListPage.jsx](src/pages/CarListPage.jsx))
 
@@ -52,7 +51,6 @@
 
 -   Lấy hãng xe: `GET /hang-xe`
 -   Lấy mẫu xe: `GET /mau-xe/hang-xe-{hangXe}`
--   Lấy tỉnh/huyện/xã: `https://provinces.open-api.vn/api/p/`, `.../api/p/{tinh}?depth=2`, `.../api/d/{quan}?depth=2`
 -   Tạo xe: `POST /cars`
 
 ## Quản lý xe (Admin) ([src/pages/AdminCarListPage.jsx](src/pages/AdminCarListPage.jsx))
