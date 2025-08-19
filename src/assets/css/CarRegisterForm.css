@@ -74,13 +74,22 @@
 
 .register-form-input,
 .register-form-row select {
-    width: 100%;
+    width: 80%;
     padding: 10px 12px;
     border: 1.5px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
     margin-top: 4px;
     background: #fafbfc;
+}
+
+.register-desc-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.price-input {
+    width: 200px;
 }
 
 .register-form-input:focus,

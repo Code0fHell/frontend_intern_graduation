@@ -562,14 +562,14 @@ function CarRegisterForm() {
                     </div>
 
                     {/* --- Mô tả --- */}
-                    <div className="register-form-group">
+                    <div className="register-form-group register-desc-group">
                         <label htmlFor="moTa" className="register-label">
                             Mô tả
                         </label>
                         <textarea
                             id="moTa"
                             name="moTa"
-                            className="register-form-input"
+                            className="register-form-input car-desc"
                             rows={3}
                             value={form.moTa || ""}
                             onChange={handleChange}
@@ -790,8 +790,7 @@ function CarRegisterForm() {
                                 value={giaThue}
                                 onChange={handleGiaThueChange}
                                 placeholder="Nhập giá cho thuê"
-                                className="register-form-input"
-                                style={{ flex: 1 }}
+                                className="register-form-input price-input"
                             />
                             <span>VNĐ</span>
                         </div>
