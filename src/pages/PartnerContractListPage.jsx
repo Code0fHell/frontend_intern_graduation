@@ -206,7 +206,7 @@ function PartnerContractListPage() {
                                                   "vi-VN"
                                               )
                                             : ""}{" "}
-                                        VNĐ/ngày
+                                        đ/ngày
                                     </td>
                                     <td>
                                         <span

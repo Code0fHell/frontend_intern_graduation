@@ -143,6 +143,25 @@ function CarRegisterForm() {
         }
     }, [form.mauXe, mauXeOptions]);
 
+    // Thay thế danh sách tiện nghi mặc định bằng tiện nghi từ API
+    const [featuresList, setFeaturesList] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8080/tien-nghi")
+            .then((res) => {
+                setFeaturesList(
+                    res.data.map((item) => ({
+                        id: item.id,
+                        key: item.ten,
+                        label: item.ten,
+                    }))
+                );
+            })
+            .catch(() => setFeaturesList([]));
+    }, []);
+    console.log("featuresList: ", JSON.stringify(featuresList));
+
     function handleChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value });
     }
@@ -171,117 +190,16 @@ function CarRegisterForm() {
         setShowAddressModal(false);
     }
 
-    // Danh sách tính năng mặc định, id từ 1 đến 18
-    const featuresList = [
-        {
-            id: 1,
-            key: "banDo",
-            label: "Bản đồ",
-            icon: <i className="fa-regular fa-map"></i>,
-        },
-        {
-            id: 2,
-            key: "bluetooth",
-            label: "Bluetooth",
-            icon: <i className="fa-brands fa-bluetooth-b"></i>,
-        },
-        {
-            id: 3,
-            key: "camera360",
-            label: "Camera 360",
-            icon: <i className="fa-regular fa-camera"></i>,
-        },
-        {
-            id: 4,
-            key: "cameraCapLe",
-            label: "Camera cặp lề",
-            icon: <i className="fa-regular fa-video"></i>,
-        },
-        {
-            id: 5,
-            key: "cameraHanhTrinh",
-            label: "Camera hành trình",
-            icon: <i className="fa-regular fa-video"></i>,
-        },
-        {
-            id: 6,
-            key: "cameraLui",
-            label: "Camera lùi",
-            icon: <i className="fa-regular fa-video"></i>,
-        },
-        {
-            id: 7,
-            key: "camBienLop",
-            label: "Cảm biến lốp",
-            icon: <i className="fa-solid fa-tachometer-alt"></i>,
-        },
-        {
-            id: 8,
-            key: "camBienVaCham",
-            label: "Cảm biến va chạm",
-            icon: <i className="fa-solid fa-car-burst"></i>,
-        },
-        {
-            id: 9,
-            key: "canhBaoTocDo",
-            label: "Cảnh báo tốc độ",
-            icon: <i className="fa-solid fa-gauge-high"></i>,
-        },
-        {
-            id: 10,
-            key: "cuaSoTroi",
-            label: "Cửa sổ trời",
-            icon: <i className="fa-regular fa-square"></i>,
-        },
-        {
-            id: 11,
-            key: "dinhViGPS",
-            label: "Định vị GPS",
-            icon: <i className="fa-solid fa-location-dot"></i>,
-        },
-        {
-            id: 12,
-            key: "gheTreEm",
-            label: "Ghế trẻ em",
-            icon: <i className="fa-solid fa-baby-carriage"></i>,
-        },
-        {
-            id: 13,
-            key: "kheCamUSB",
-            label: "Khe cắm USB",
-            icon: <i className="fa-solid fa-usb"></i>,
-        },
-        {
-            id: 14,
-            key: "lopDuPhong",
-            label: "Lốp dự phòng",
-            icon: <i className="fa-solid fa-circle-dot"></i>,
-        },
-        {
-            id: 15,
-            key: "manHinhDVD",
-            label: "Màn hình DVD",
-            icon: <i className="fa-solid fa-tv"></i>,
-        },
-        {
-            id: 16,
-            key: "napThungBanTai",
-            label: "Nắp thùng xe bán tải",
-            icon: <i className="fa-solid fa-truck-pickup"></i>,
-        },
-        {
-            id: 17,
-            key: "etc",
-            label: "ETC",
-            icon: <i className="fa-solid fa-credit-card"></i>,
-        },
-        {
-            id: 18,
-            key: "tuiKhiAnToan",
-            label: "Túi khí an toàn",
-            icon: <i className="fa-solid fa-circle-exclamation"></i>,
-        },
-    ];
+    // Khi chọn tiện nghi
+    function handleFeatureToggle(id) {
+        setForm((f) => ({
+            ...f,
+            tinhNang: f.tinhNang?.includes(id)
+                ? f.tinhNang.filter((k) => k !== id)
+                : [...(f.tinhNang || []), id],
+        }));
+    }
+
     function handlePrev() {
         setStep(step - 1);
     }
@@ -294,9 +212,8 @@ function CarRegisterForm() {
     // Tạo xe (chỉ gọi khi nhấn "Tiếp tục" ở bước thông tin)
     async function handleCreateCar() {
         try {
-            const selectedFeatureIds = form.tinhNang
-                .map((key) => featuresList.find((f) => f.key === key)?.id)
-                .filter(Boolean);
+            // Lấy đúng id tiện nghi đã chọn
+            const selectedFeatureIds = form.tinhNang;
 
             const payload = {
                 bienSo: form.bienSo,
@@ -316,14 +233,14 @@ function CarRegisterForm() {
                 },
                 tienNghi: selectedFeatureIds,
             };
+            console.log("payload: ", JSON.stringify(payload));
 
             // Tạo xe trước, lưu lại otoId vào state
             const res = await axios.post("http://localhost:8080/cars", payload);
-            console.log("reSL: ", JSON.stringify(res.data));
             const otoId = res.data.id;
             const diaChiId = res.data.diaChi.id;
-            setForm((f) => ({ ...f, otoId, diaChiId })); // lưu id xe vào state
-            setStep(2); // chuyển sang bước nhập giá thuê
+            setForm((f) => ({ ...f, otoId, diaChiId }));
+            setStep(2);
         } catch (err) {
             alert("Đăng ký xe thất bại!" + err.message);
         }
@@ -398,13 +315,6 @@ function CarRegisterForm() {
                 alert("Vui lòng đăng ký xe trước!");
                 return;
             }
-            // Map tiện nghi từ key sang id
-            const tienNghiIds = (form.tinhNang || [])
-                .map((key) => {
-                    const found = featuresList.find((f) => f.key === key);
-                    return found ? found.id : null;
-                })
-                .filter((id) => id !== null);
 
             const diaChiId = form.diaChiId;
 
@@ -427,7 +337,7 @@ function CarRegisterForm() {
                     phuong: phuongObj?.name || "",
                     soNha: address.soNha,
                 },
-                tienNghi: tienNghiIds,
+                tienNghi: form.tinhNang,
             };
             await axios.put(
                 `http://localhost:8080/cars/${otoId}`,
@@ -437,6 +347,20 @@ function CarRegisterForm() {
         } catch (err) {
             alert("Cập nhật giá thuê thất bại! " + err.message);
         }
+    }
+
+    // Thêm hàm chọn tất cả và xóa tất cả tiện nghi
+    function handleSelectAllFeatures() {
+        setForm((f) => ({
+            ...f,
+            tinhNang: featuresList.map((feature) => feature.id),
+        }));
+    }
+    function handleClearAllFeatures() {
+        setForm((f) => ({
+            ...f,
+            tinhNang: [],
+        }));
     }
 
     return (
@@ -790,66 +714,38 @@ function CarRegisterForm() {
 
                     {/* --- Tính năng --- */}
                     <div className="register-form-group">
-                        <label className="register-label">Tính năng</label>
-                        <div
-                            className="register-features-list"
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "repeat(3, 1fr)",
-                                gap: 12,
-                            }}
-                        >
+                        <label className="register-label">Tiện nghi</label>
+                        <div className="register-features-actions">
+                            <button
+                                type="button"
+                                className="register-feature-action-btn"
+                                onClick={handleSelectAllFeatures}
+                            >
+                                Chọn tất cả tiện nghi
+                            </button>
+                            <button
+                                type="button"
+                                className="register-feature-action-btn"
+                                onClick={handleClearAllFeatures}
+                            >
+                                Xóa tất cả tiện nghi
+                            </button>
+                        </div>
+                        <div className="register-features-list">
                             {featuresList.map((feature) => (
                                 <button
                                     type="button"
-                                    key={feature.key}
+                                    key={feature.id}
                                     className={`register-feature-btn${
-                                        form.tinhNang?.includes(feature.key)
+                                        form.tinhNang?.includes(feature.id)
                                             ? " selected"
                                             : ""
                                     }`}
-                                    onClick={() => {
-                                        setForm((f) => ({
-                                            ...f,
-                                            tinhNang: f.tinhNang?.includes(
-                                                feature.key
-                                            )
-                                                ? f.tinhNang.filter(
-                                                      (k) => k !== feature.key
-                                                  )
-                                                : [
-                                                      ...(f.tinhNang || []),
-                                                      feature.key,
-                                                  ],
-                                        }));
-                                    }}
-                                    style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        border: form.tinhNang?.includes(
-                                            feature.key
-                                        )
-                                            ? "2px solid #22c55e"
-                                            : "1px solid #ccc",
-                                        background: "#fff",
-                                        borderRadius: 8,
-                                        padding: "18px 0 10px 0",
-                                        fontWeight: 500,
-                                        color: "#222",
-                                        cursor: "pointer",
-                                        transition: "border 0.2s",
-                                        minHeight: 70,
-                                    }}
+                                    onClick={() =>
+                                        handleFeatureToggle(feature.id)
+                                    }
                                 >
-                                    <div
-                                        className="register-feature-icon"
-                                        style={{
-                                            fontSize: 24,
-                                            marginBottom: 8,
-                                        }}
-                                    >
+                                    <div className="register-feature-icon">
                                         {feature.icon}
                                     </div>
                                     <div>{feature.label}</div>

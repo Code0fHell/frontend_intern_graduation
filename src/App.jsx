@@ -15,7 +15,6 @@ import InvoicePreviewPage from "./pages/InvoicePreviewPage";
 import CreatePartnerContractPage from "./pages/CreatePartnerContractPage";
 import ContractPartnerPage from "./pages/ContractPartnerPage";
 import ContractPartnerDetailPage from "./pages/ContractPartnerDetailPage";
-import PartnerContractDetailPage from "./pages/PartnerContractDetailPage";
 import CreatePartnerInvoicePage from "./pages/CreatePartnerInvoicePage";
 import PartnerInvoicePreviewPage from "./pages/PartnerInvoicePreviewPage";
 import PartnerContractListPage from "./pages/PartnerContractListPage";
@@ -24,7 +23,6 @@ import EmployeeRentalContractsPage from "./pages/EmployeeRentalContractsPage";
 import EmployeePartnerContractsPage from "./pages/EmployeePartnerContractsPage";
 import InvoiceListPage from "./pages/InvoiceListPage";
 import PartnerCarDetailPage from "./pages/PartnerCarDetailPage";
-import AdminRentalContractsPage from "./pages/AdminRentalContractsPage";
 import BlackListPage from "./pages/BlackListPage";
 
 function RoleRouter() {
@@ -86,10 +84,6 @@ function App() {
                     />
                     <Route path="/admin/cars" element={<AdminCarListPage />} />
                     <Route
-                        path="/admin/rental-contracts"
-                        element={<AdminRentalContractsPage />}
-                    />
-                    <Route
                         path="/black-list"
                         element={<BlackListPage />}
                     />
@@ -108,10 +102,6 @@ function App() {
                     <Route
                         path="/partner-contracts"
                         element={<ContractPartnerPage />}
-                    />
-                    <Route
-                        path="/partner-contracts/:id"
-                        element={<PartnerContractDetailPage />}
                     />
                     <Route
                         path="/create-partner-invoice"

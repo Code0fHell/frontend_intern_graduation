@@ -4,6 +4,20 @@ import axios from "axios";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../assets/css/PartnerCarDetailPage.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faCar,
+    faIdCard,
+    faImage,
+    faChair,
+    faGasPump,
+    faCogs,
+    faFileAlt,
+    faArrowLeft,
+    faCheckCircle,
+    faTimesCircle,
+    faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 function PartnerCarDetailPage() {
     const { id } = useParams();
@@ -40,7 +54,9 @@ function PartnerCarDetailPage() {
     useEffect(() => {
         if (car?.id) {
             axios
-                .get(`http://localhost:8080/api/renting/cars/${car.id}/images`)
+                .get(
+                    `http://localhost:8080/api/renting/cars/${car.id}/images/all`
+                )
                 .then((res) => {
                     setImages(
                         res.data.map(
@@ -72,6 +88,7 @@ function PartnerCarDetailPage() {
                 .catch(() => setTienNghi([]));
         }
     }, [car?.id, id]);
+    console.log("tienNghi: " + JSON.stringify(tienNghi));
 
     // Mở modal thêm ảnh
     const openAddModal = () => {
@@ -88,6 +105,11 @@ function PartnerCarDetailPage() {
     // Xử lý upload ảnh như CarRegisterForm
     const handleAddImage = async () => {
         if (!addImage || !car?.id) return;
+        // Ràng buộc chỉ thêm tối đa 5 ảnh
+        if (images.length >= 5) {
+            alert("Chỉ được thêm tối đa 5 ảnh cho xe!");
+            return;
+        }
         setLoading(true);
         const formData = new FormData();
         formData.append("file", addImage);
@@ -139,7 +161,6 @@ function PartnerCarDetailPage() {
                 {/* Gallery */}
                 <div className="car-detail-gallery car-detail-gallery-top">
                     <div className="car-detail-gallery-main">
-                        {/* Hiển thị ảnh được chọn hoặc mặc định */}
                         <img
                             src={images[selectedImg] || "/default-car.png"}
                             alt={car.mauXe?.ten}
@@ -147,51 +168,42 @@ function PartnerCarDetailPage() {
                         />
                     </div>
                     <div className="car-detail-gallery-thumbs">
-                        {/* Hiển thị tối đa 5 ảnh, chọn ảnh để xem lớn */}
-                        {images.slice(0, 5).map((img, idx) => (
-                            <div key={idx} style={{ position: "relative" }}>
-                                <img
-                                    src={img}
-                                    alt={`thumb-${idx}`}
-                                    className={`car-detail-thumb${
-                                        selectedImg === idx ? " selected" : ""
-                                    }`}
-                                    onClick={() => setSelectedImg(idx)}
-                                    style={{
-                                        border:
-                                            selectedImg === idx
-                                                ? "2px solid #22c55e"
-                                                : "2px solid #eee",
-                                        cursor: "pointer",
-                                    }}
-                                />
-                                {/* Hiển thị meta ảnh */}
-                                <div
-                                    style={{
-                                        fontSize: 12,
-                                        color: "#666",
-                                        marginTop: 2,
-                                    }}
-                                >
-                                    {imageMeta[idx]?.giayToXe && (
-                                        <span>Giấy tờ xe&nbsp;</span>
-                                    )}
-                                    {imageMeta[idx]?.thumnail && (
-                                        <span>Thumbnail&nbsp;</span>
-                                    )}
-                                    {imageMeta[idx]?.ghiChu && (
-                                        <span>({imageMeta[idx].ghiChu})</span>
-                                    )}
-                                </div>
-                            </div>
+                        {images.slice(0, 4).map((img, idx) => (
+                            <img
+                                key={idx}
+                                src={img}
+                                alt={`thumb-${idx}`}
+                                className={`car-detail-thumb${
+                                    selectedImg === idx ? " selected" : ""
+                                }`}
+                                onClick={() => setSelectedImg(idx)}
+                                style={{
+                                    border:
+                                        selectedImg === idx
+                                            ? "2px solid #22c55e"
+                                            : "2px solid #eee",
+                                    cursor: "pointer",
+                                }}
+                            />
                         ))}
-                        {/* Chỉ đối tác mới có nút thêm ảnh */}
+                        {images.length > 4 && (
+                            <button className="car-detail-gallery-all">
+                                <FontAwesomeIcon icon={faImage} /> Xem tất cả
+                                ảnh
+                            </button>
+                        )}
                         {isDT && (
                             <div
                                 className="car-detail-add-thumb"
                                 onClick={openAddModal}
+                                title="Thêm ảnh xe"
                             >
-                                +
+                                <FontAwesomeIcon icon={faImage} size="lg" />
+                                <span
+                                    style={{ marginLeft: 4, fontWeight: 600 }}
+                                >
+                                    +
+                                </span>
                             </div>
                         )}
                     </div>
@@ -206,7 +218,9 @@ function PartnerCarDetailPage() {
                             >
                                 &times;
                             </span>
-                            <h3>Thêm ảnh xe</h3>
+                            <h3>
+                                <FontAwesomeIcon icon={faImage} /> Thêm ảnh xe
+                            </h3>
                             <input
                                 type="file"
                                 accept="image/*"
@@ -226,7 +240,8 @@ function PartnerCarDetailPage() {
                                             }))
                                         }
                                     />{" "}
-                                    Ảnh giấy tờ xe
+                                    <FontAwesomeIcon icon={faIdCard} /> Ảnh giấy
+                                    tờ xe
                                 </label>
                                 <label style={{ marginLeft: 24 }}>
                                     <input
@@ -239,7 +254,8 @@ function PartnerCarDetailPage() {
                                             }))
                                         }
                                     />{" "}
-                                    Ảnh đại diện (thumbnail)
+                                    <FontAwesomeIcon icon={faImage} /> Ảnh đại
+                                    diện (thumbnail)
                                 </label>
                             </div>
                             <div style={{ marginBottom: 12 }}>
@@ -266,39 +282,42 @@ function PartnerCarDetailPage() {
                                 onClick={handleAddImage}
                                 disabled={loading || !addImage}
                             >
-                                Thêm ảnh
+                                <FontAwesomeIcon icon={faCheckCircle} /> Thêm
+                                ảnh
                             </button>
                         </div>
                     </div>
                 )}
                 {/* Đặc điểm */}
                 <div className="car-detail-section">
-                    <div className="car-detail-label">Đặc điểm</div>
+                    <div className="car-detail-label">
+                        <FontAwesomeIcon icon={faCogs} /> Đặc điểm
+                    </div>
                     <ul className="car-detail-features">
                         <li>
                             <span className="car-detail-feature-title">
-                                Truyền động
+                                <FontAwesomeIcon icon={faCogs} /> Truyền động
                             </span>
                             <br />
                             {car.truyenDong}
                         </li>
                         <li>
                             <span className="car-detail-feature-title">
-                                Số ghế
+                                <FontAwesomeIcon icon={faChair} /> Số ghế
                             </span>
                             <br />
                             {car.mauXe?.soGhe} chỗ
                         </li>
                         <li>
                             <span className="car-detail-feature-title">
-                                Nhiên liệu
+                                <FontAwesomeIcon icon={faGasPump} /> Nhiên liệu
                             </span>
                             <br />
                             {car.loaiNhienLieu}
                         </li>
                         <li>
                             <span className="car-detail-feature-title">
-                                Tiêu hao
+                                <FontAwesomeIcon icon={faInfoCircle} /> Tiêu hao
                             </span>
                             <br />
                             {car.mucTieuThu}L/100km
@@ -307,20 +326,29 @@ function PartnerCarDetailPage() {
                 </div>
                 {/* Mô tả */}
                 <div className="car-detail-section">
-                    <div className="car-detail-label">Mô tả</div>
+                    <div className="car-detail-label">
+                        <FontAwesomeIcon icon={faFileAlt} /> Mô tả
+                    </div>
                     <div>{car.moTa || "Chưa có mô tả"}</div>
                 </div>
                 {/* Tiện nghi */}
                 <div className="car-detail-section">
-                    <div className="car-detail-label">Các tiện nghi khác</div>
+                    <div className="car-detail-label">
+                        <FontAwesomeIcon icon={faCar} /> Các tiện nghi khác
+                    </div>
                     <div className="car-detail-tiennghi-list">
                         {tienNghi.length === 0 && (
                             <span style={{ color: "#888" }}>
-                                Chưa có tiện nghi
+                                <FontAwesomeIcon icon={faTimesCircle} /> Chưa có
+                                tiện nghi
                             </span>
                         )}
                         {tienNghi.map((t, i) => (
                             <div className="car-detail-tiennghi-item" key={i}>
+                                <FontAwesomeIcon
+                                    icon={faCheckCircle}
+                                    style={{ color: "#22c55e", marginRight: 6 }}
+                                />
                                 {t.ten || t}
                             </div>
                         ))}
@@ -333,7 +361,7 @@ function PartnerCarDetailPage() {
                             className="contract-btn"
                             onClick={() => navigate(-1)}
                         >
-                            Quay lại
+                            <FontAwesomeIcon icon={faArrowLeft} /> Quay lại
                         </button>
                     </div>
                 )}

@@ -29,7 +29,7 @@ function PartnerCarPage() {
                 const imagePromises = res.data.map((car) =>
                     axios
                         .get(
-                            `http://localhost:8080/api/renting/cars/${car.id}/images`
+                            `http://localhost:8080/api/renting/cars/${car.id}/images/thumnail`
                         )
                         .then((imgRes) => ({
                             id: car.id,

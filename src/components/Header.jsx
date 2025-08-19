@@ -132,12 +132,6 @@ function Header() {
                                 </button>
                                 <button
                                     className="header-link"
-                                    onClick={() => navigate("/admin/rental-contracts")}
-                                >
-                                    Danh sách hợp đồng thuê xe
-                                </button>
-                                <button
-                                    className="header-link"
                                     onClick={() => navigate("/black-list")}
                                 >
                                     Danh sách đen

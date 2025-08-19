@@ -12,6 +12,19 @@ const STATUS_OPTIONS = [
     { value: "HET_HAN_HOP_DONG", label: "Hết hạn hợp đồng" },
 ];
 
+function getStatusColor(status) {
+    switch (status) {
+        case "OK":
+            return { background: "#bbf7d0", color: "#166534" }; // xanh lá
+        case "HUY":
+            return { background: "#fecaca", color: "#991b1b" }; // đỏ nhạt
+        case "HET_HAN_HOP_DONG":
+            return { background: "#fca5a5", color: "#991b1b" }; // đỏ
+        default:
+            return { background: "#e0e7ef", color: "#334155" }; // xám
+    }
+}
+
 function ContractPartnerPage() {
     const navigate = useNavigate();
     const [contracts, setContracts] = useState([]);
@@ -215,14 +228,30 @@ function ContractPartnerPage() {
                                           ).toLocaleDateString()
                                         : ""}
                                 </td>
-                                <td>{contract?.oto?.gia} VNĐ/ngày</td>
                                 <td>
-                                    {contract.trangThai
-                                        ? STATUS_OPTIONS.find(
-                                              (s) =>
-                                                  s.value === contract.trangThai
-                                          )?.label || contract.trangThai
-                                        : ""}
+                                    {contract?.oto?.gia.toLocaleString()} đ/ngày
+                                </td>
+                                <td>
+                                    <span
+                                            style={{
+                                                padding: "4px 12px",
+                                                borderRadius: 8,
+                                                fontWeight: 500,
+                                                fontSize: 15,
+                                                ...getStatusColor(
+                                                    contract.trangThai
+                                                ),
+                                                display: "inline-block",
+                                            }}
+                                        >
+                                            {contract.trangThai
+                                                ? STATUS_OPTIONS.find(
+                                                      (s) =>
+                                                          s.value ===
+                                                          contract.trangThai
+                                                  )?.label || contract.trangThai
+                                                : ""}
+                                        </span>
                                 </td>
                                 <td>ChevMaz</td>
                                 <td>{contract?.oto?.doiTac?.hoTen}</td>
@@ -230,7 +259,9 @@ function ContractPartnerPage() {
                                     <button
                                         className="contract-detail-btn"
                                         onClick={() =>
-                                            navigate(`/contract-partner-detail/${contract.id}`)
+                                            navigate(
+                                                `/contract-partner-detail/${contract.id}`
+                                            )
                                         }
                                     >
                                         Chi tiết

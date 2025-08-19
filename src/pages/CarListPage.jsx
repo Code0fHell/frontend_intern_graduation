@@ -64,7 +64,7 @@ function CarListPage() {
                 const imagePromises = res.data.map((car) =>
                     axios
                         .get(
-                            `http://localhost:8080/api/renting/cars/${car.id}/images`
+                            `http://localhost:8080/api/renting/cars/${car.id}/images/thumnail`
                         )
                         .then((imgRes) => ({
                             id: car.id,
@@ -95,6 +95,11 @@ function CarListPage() {
 
     // Gọi API tìm xe
     async function handleSearch() {
+        // Ràng buộc bắt buộc phải chọn thời gian nhận và trả xe
+        if (!filters.pickupDateTime || !filters.returnDateTime) {
+            alert("Vui lòng chọn thời gian nhận và thời gian trả xe!");
+            return;
+        }
         const selectedHangXe = hangXeList.find(
             (hx) => hx.id.toString() === filters.hangXe
         );
@@ -103,10 +108,16 @@ function CarListPage() {
             brand: brandName,
             transmissionType: filters.truyenDong,
             fuelType: filters.nhienLieu,
-            seats: filters.soGhe ? parseInt(filters.soGhe) : undefined,
+            seats: filters.soGhe,
             tinh: filters.tinh,
-            pickupDateTime: new Date(filters.pickupDateTime).toISOString().replace("T", " ").slice(0, 19),
-            returnDateTime: new Date(filters.returnDateTime).toISOString().replace("T", " ").slice(0, 19),
+            thoiGianNhan: new Date(filters.pickupDateTime)
+                .toISOString()
+                .replace("T", " ")
+                .slice(0, 19),
+            thoiGianTra: new Date(filters.returnDateTime)
+                .toISOString()
+                .replace("T", " ")
+                .slice(0, 19),
         };
         console.log("payload: " + JSON.stringify(payload));
         try {
@@ -115,13 +126,12 @@ function CarListPage() {
                 payload
             );
             setCars(res.data);
-            console.log("cars: " + JSON.stringify(cars));
 
             // Lấy danh sách tên file ảnh cho từng xe
             const imagePromises = res.data.map((car) =>
                 axios
                     .get(
-                        `http://localhost:8080/api/renting/cars/${car.id}/images`
+                        `http://localhost:8080/api/renting/cars/${car.id}/images/thumnail`
                     )
                     .then((imgRes) => ({
                         id: car.id,
@@ -133,13 +143,11 @@ function CarListPage() {
                     .catch(() => ({ id: car.id, images: [] }))
             );
             const imagesArr = await Promise.all(imagePromises);
-            console.log("imageArr: " + imagesArr);
             const imagesObj = {};
             imagesArr.forEach((item) => {
                 imagesObj[item.id] = item.images;
             });
             setCarImages(imagesObj);
-            console.log("carImages: " + JSON.stringify(carImages));
         } catch {
             setCars([]);
             setCarImages({});
@@ -151,87 +159,114 @@ function CarListPage() {
             <Header />
             <main className="carlist-main">
                 <div className="carlist-filters">
-                    <select
-                        name="hangXe"
-                        value={filters.hangXe}
-                        onChange={handleFilterChange}
-                    >
-                        <option value="">Chọn hãng xe</option>
-                        {hangXeList.map((hx) => (
-                            <option key={hx.id} value={hx.id}>
-                                {hx.ten}
-                            </option>
-                        ))}
-                    </select>
-                    <select
-                        name="mauXe"
-                        value={filters.mauXe}
-                        onChange={handleFilterChange}
-                        disabled={!filters.hangXe}
-                    >
-                        <option value="">Chọn mẫu xe</option>
-                        {mauXeList.map((mx) => (
-                            <option key={mx.id} value={mx.id}>
-                                {mx.tenMauXe}
-                            </option>
-                        ))}
-                    </select>
-                    <select
-                        name="truyenDong"
-                        value={filters.truyenDong}
-                        onChange={handleFilterChange}
-                    >
-                        <option value="">Chọn truyền động</option>
-                        <option value="Số tự động">Số tự động</option>
-                        <option value="Số sàn">Số sàn</option>
-                    </select>
-                    <select
-                        name="soGhe"
-                        value={filters.soGhe}
-                        onChange={handleFilterChange}
-                    >
-                        <option value="">Chọn số ghế</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="7">7</option>
-                    </select>
-                    <select
-                        name="nhienLieu"
-                        value={filters.nhienLieu}
-                        onChange={handleFilterChange}
-                    >
-                        <option value="">Chọn nhiên liệu</option>
-                        <option value="Xăng">Xăng</option>
-                        <option value="Dầu">Dầu</option>
-                        <option value="Điện">Điện</option>
-                        <option value="Hybrid">Hybrid</option>
-                    </select>
-                    <select
-                        name="tinh"
-                        value={filters.tinh}
-                        onChange={handleFilterChange}
-                    >
-                        <option value="">Chọn tỉnh</option>
-                        {tinhList.map((tinh) => (
-                            <option key={tinh} value={tinh}>
-                                {tinh}
-                            </option>
-                        ))}
-                    </select>
-                    <input
-                        type="datetime-local"
-                        name="pickupDateTime"
-                        value={filters.pickupDateTime}
-                        onChange={handleFilterChange}
-                        placeholder="Thời gian nhận"
-                    />
-                    <input
-                        type="datetime-local"
-                        name="returnDateTime"
-                        value={filters.returnDateTime}
-                        onChange={handleFilterChange}
-                        placeholder="Thời gian trả"
-                    />
+                    <div>
+                        <label>Hãng xe</label>
+                        <select
+                            name="hangXe"
+                            value={filters.hangXe}
+                            onChange={handleFilterChange}
+                        >
+                            <option value="">Chọn hãng xe</option>
+                            {hangXeList.map((hx) => (
+                                <option key={hx.id} value={hx.id}>
+                                    {hx.ten}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Mẫu xe</label>
+                        <select
+                            name="mauXe"
+                            value={filters.mauXe}
+                            onChange={handleFilterChange}
+                            disabled={!filters.hangXe}
+                        >
+                            <option value="">Chọn mẫu xe</option>
+                            {mauXeList.map((mx) => (
+                                <option key={mx.id} value={mx.id}>
+                                    {mx.tenMauXe}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Truyền động</label>
+                        <select
+                            name="truyenDong"
+                            value={filters.truyenDong}
+                            onChange={handleFilterChange}
+                        >
+                            <option value="">Chọn truyền động</option>
+                            <option value="Số tự động">Số tự động</option>
+                            <option value="Số sàn">Số sàn</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Số ghế</label>
+                        <select
+                            name="soGhe"
+                            value={filters.soGhe}
+                            onChange={handleFilterChange}
+                        >
+                            <option value="">Chọn số ghế</option>
+                            {[...Array(10)].map((_, i) => {
+                                const seat = i + 4;
+                                return (
+                                    <option key={seat} value={seat}>
+                                        {seat}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Nhiên liệu</label>
+                        <select
+                            name="nhienLieu"
+                            value={filters.nhienLieu}
+                            onChange={handleFilterChange}
+                        >
+                            <option value="">Chọn nhiên liệu</option>
+                            <option value="Xăng">Xăng</option>
+                            <option value="Điện">Điện</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Tỉnh</label>
+                        <select
+                            name="tinh"
+                            value={filters.tinh}
+                            onChange={handleFilterChange}
+                        >
+                            <option value="">Chọn tỉnh</option>
+                            {tinhList.map((tinh) => (
+                                <option key={tinh} value={tinh}>
+                                    {tinh}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Thời gian nhận xe</label>
+                        <input
+                            type="datetime-local"
+                            name="pickupDateTime"
+                            value={filters.pickupDateTime}
+                            onChange={handleFilterChange}
+                            placeholder="Thời gian nhận"
+                        />
+                    </div>
+                    <div>
+                        <label>Thời gian trả xe</label>
+                        <input
+                            type="datetime-local"
+                            name="returnDateTime"
+                            value={filters.returnDateTime}
+                            onChange={handleFilterChange}
+                            placeholder="Thời gian trả"
+                        />
+                    </div>
                     <button onClick={handleSearch}>Tìm xe</button>
                 </div>
                 <div className="carlist-list">

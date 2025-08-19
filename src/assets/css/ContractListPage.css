@@ -5,6 +5,7 @@
 }
 .contract-list-container {
     flex: 1;
+    min-height: 73vh;
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;

@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -6,15 +5,11 @@ import CarRegisterForm from "../components/CarRegisterForm";
 import "../assets/css/CarRegisterPage.css";
 
 function CarRegisterPage() {
-    const navigate = useNavigate();
     const [showForm, setShowForm] = useState(false);
 
     return (
         <div className="register-root">
             <Header />
-            <button className="register-back" onClick={() => navigate(-1)}>
-                &lt; Quay lại
-            </button>
             <main className="register-main">
                 <h1 className="register-title">Đăng ký xe</h1>
                 {!showForm && (

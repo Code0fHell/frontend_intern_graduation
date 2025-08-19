@@ -34,18 +34,18 @@ function CarDetailPage() {
         if (soNgayThue < 1) soNgayThue = 1;
         tongTien = soNgayThue * (carInfo.gia || 0);
     }
+    console.log("images: " + JSON.stringify(images));
 
     useEffect(() => {
-        // Lấy ảnh xe
+        // Lấy ảnh xe, chỉ hiển thị ảnh có thuộc tính thumnail, không hiển thị ảnh giayToXe
         axios
-            .get(`http://localhost:8080/api/renting/cars/${id}/images`)
-            .then((res) =>
-                setImages(
-                    res.data.map(
-                        (filename) => `http://localhost:8080/images/${filename}`
-                    )
-                )
-            )
+            .get(`http://localhost:8080/api/renting/cars/${id}/images/thumnail`)
+            .then((res) => {
+                const filteredImages = res.data
+                    .map((filename) => `http://localhost:8080/images/${filename}`
+                    );
+                setImages(filteredImages);
+            })
             .catch(() => setImages([]));
 
         // Lấy tiện nghi xe
@@ -83,7 +83,8 @@ function CarDetailPage() {
         console.log("hopdong: " + JSON.stringify(hopDongThue));
         try {
             await axios.post(
-                "http://localhost:8080/api/hop-dong-thue", hopDongThue
+                "http://localhost:8080/api/hop-dong-thue",
+                hopDongThue
             );
             alert("Đặt thuê thành công!");
             navigate("/contracts_customer");

@@ -10,6 +10,7 @@ function InvoiceListPage() {
         ngayThanhToan: "",
         sdt: "",
         ten: "",
+        phuongThuc: "",
     });
 
     // State cho hóa đơn đối tác
@@ -18,6 +19,7 @@ function InvoiceListPage() {
         ngayThanhToan: "",
         sdt: "",
         ten: "",
+        phuongThuc: "",
     });
 
     // Lấy hóa đơn khách hàng
@@ -53,7 +55,10 @@ function InvoiceListPage() {
             (inv?.hopDongThue.khachHang?.hoTen || "")
                 .toLowerCase()
                 .includes(customerFilter.ten.toLowerCase());
-        return matchDate && matchSdt && matchTen;
+        const matchPhuongThuc =
+            !customerFilter.phuongThuc ||
+            inv.phuongThucThanhToan === customerFilter.phuongThuc;
+        return matchDate && matchSdt && matchTen && matchPhuongThuc;
     });
 
     // Lọc hóa đơn đối tác
@@ -71,7 +76,10 @@ function InvoiceListPage() {
             (inv?.hopDongThue.doiTac?.hoTen || "")
                 .toLowerCase()
                 .includes(partnerFilter.ten.toLowerCase());
-        return matchDate && matchSdt && matchTen;
+        const matchPhuongThuc =
+            !partnerFilter.phuongThuc ||
+            inv.phuongThucThanhToan === partnerFilter.phuongThuc;
+        return matchDate && matchSdt && matchTen && matchPhuongThuc;
     });
 
     return (
@@ -126,6 +134,22 @@ function InvoiceListPage() {
                             }
                             placeholder="Nhập tên khách hàng"
                         />
+                    </div>
+                    <div>
+                        <label>Phương thức thanh toán</label>
+                        <select
+                            value={customerFilter.phuongThuc}
+                            onChange={(e) =>
+                                setCustomerFilter({
+                                    ...customerFilter,
+                                    phuongThuc: e.target.value,
+                                })
+                            }
+                        >
+                            <option value="">Tất cả</option>
+                            <option value="Tiền mặt">Tiền mặt</option>
+                            <option value="Chuyển khoản">Chuyển khoản</option>
+                        </select>
                     </div>
                 </div>
                 <table className="contract-partner-table">
@@ -204,6 +228,23 @@ function InvoiceListPage() {
                             }
                             placeholder="Nhập tên đối tác"
                         />
+                    </div>
+                    <div>
+                        <label>Phương thức thanh toán</label>
+                        <select
+                            value={partnerFilter.phuongThuc}
+                            onChange={(e) =>
+                                setPartnerFilter({
+                                    ...partnerFilter,
+                                    phuongThuc: e.target.value,
+                                })
+                            }
+                        >
+                            <option value="">Tất cả</option>
+                            <option value="Tiền mặt">Tiền mặt</option>
+                            <option value="Chuyển khoản">Chuyển khoản</option>
+                            <option value="Ví điện tử">Ví điện tử</option>
+                        </select>
                     </div>
                 </div>
                 <table className="contract-partner-table">
