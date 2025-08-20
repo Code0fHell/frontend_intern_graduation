@@ -166,7 +166,7 @@ function CreateInvoicePage() {
         <div className="contract-root">
             <Header />
             <div className="contract-detail-container contract-detail-large">
-                <h2>Tạo hóa đơn thanh lý hợp đồng</h2>
+                <h2>Tạo hóa đơn cho khách hàng</h2>
                 <form onSubmit={handleSubmit}>
                     {/* Thông tin khách hàng */}
                     <h3 style={{ marginTop: 0 }}>I. Thông tin khách hàng</h3>
@@ -219,6 +219,13 @@ function CreateInvoicePage() {
                     <div style={{ marginBottom: 16 }}>
                         <b>Ngày thanh toán:</b> {ngayThanhToan}
                     </div>
+                    <h3>V. Thông tin tài khoản thanh toán</h3>
+                    <div style={{ marginBottom: 16 }}>
+                        <b>Số tài khoản:</b> 9130144401888
+                    </div>
+                    <div style={{ marginBottom: 16 }}>
+                        <b>Ngân hàng:</b> MB Bank
+                    </div>
                     <div style={{ marginBottom: 16 }}>
                         <b>Phương thức thanh toán:</b>
                         <select
@@ -246,7 +253,7 @@ function CreateInvoicePage() {
                         />
                     </div>
                     {/* Phụ phí */}
-                    <h3>V. Phụ phí có thể phát sinh</h3>
+                    <h3>VI. Phụ phí có thể phát sinh</h3>
                     <div style={{ marginBottom: 16 }}>
                         <div className="phuphi-box">
                             {phuPhiList.map((phi) => {

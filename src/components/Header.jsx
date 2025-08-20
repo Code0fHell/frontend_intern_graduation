@@ -128,7 +128,7 @@ function Header() {
                                         navigate("/admin/partner-contracts")
                                     }
                                 >
-                                    Danh sách hợp đồng cho thuê
+                                    Danh sách hợp đồng với đối tác
                                 </button>
                                 <button
                                     className="header-link"

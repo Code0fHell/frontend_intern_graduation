@@ -223,6 +223,13 @@ function InvoicePreviewPage() {
                         ? new Date(contract.checkout).toLocaleString()
                         : ""}
                 </div>
+                <h3>V. Thông tin tài khoản thanh toán</h3>
+                    <div style={{ marginBottom: 16 }}>
+                        <b>Số tài khoản:</b> 9130144401888
+                    </div>
+                    <div style={{ marginBottom: 16 }}>
+                        <b>Ngân hàng:</b> MB Bank
+                    </div>
                 <div style={{ marginBottom: 16 }}>
                     <b>Ngày thanh toán:</b>{" "}
                     {new Date(invoice.ngayThanhToan).toISOString().slice(0, 10)}
@@ -234,7 +241,7 @@ function InvoicePreviewPage() {
                     <b>Ghi chú:</b> {invoice.ghiChu}
                 </div>
                 {/* Phụ phí */}
-                <h3>V. Phụ phí có thể phát sinh</h3>
+                <h3>VI. Phụ phí phát sinh</h3>
                 <div style={{ marginBottom: 12 }}>
                     <b>Bảng phụ phí:</b>
                     <table className="contract-table" style={{ marginTop: 8 }}>

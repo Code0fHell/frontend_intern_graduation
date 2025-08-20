@@ -1,0 +1,35 @@
+.partner-invoice-preview {
+    background: #fff;
+    padding: 32px 28px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px #e0e7ef;
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 16px;
+    color: #222;
+}
+
+.partner-invoice-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 18px;
+}
+
+.partner-invoice-subtitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2563eb;
+    margin: 18px 0 8px 0;
+}
+
+.partner-invoice-section {
+    margin-bottom: 8px;
+}
+
+.partner-invoice-divider {
+    border: none;
+    border-top: 1px solid #e0e7ef;
+    margin: 16px 0;
+}

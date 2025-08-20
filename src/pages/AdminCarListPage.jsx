@@ -262,7 +262,7 @@ function AdminCarListPage() {
                             <tr>
                                 <th style={{ width: 60 }}>STT</th>
                                 <th style={{ width: 120 }}>Hãng xe</th>
-                                <th style={{ width: 120 }}>Mẫu xe</th>
+                                <th className="mau-xe">Mẫu xe</th>
                                 <th style={{ width: 110 }}>Biển số</th>
                                 <th style={{ width: 220 }}>Địa chỉ</th>
                                 <th style={{ width: 110 }}>Giá thuê</th>
@@ -282,7 +282,7 @@ function AdminCarListPage() {
                                 <tr key={car.id}>
                                     <td>{idx + 1}</td>
                                     <td>{car.mauXe?.hangXe?.ten}</td>
-                                    <td>{car.mauXe?.ten}</td>
+                                    <td className="mau-xe">{car.mauXe?.ten}</td>
                                     <td>{car.bienSo}</td>
                                     <td>
                                         {car.diaChi?.soNha},{" "}
@@ -323,7 +323,10 @@ function AdminCarListPage() {
                                     </td>
                                     <td>
                                         <div
-                                            style={{ display: "flex", gap: 8 }}
+                                            style={{
+                                                display: "flex",
+                                                gapRight: 4,
+                                            }}
                                         >
                                             <button
                                                 className="admin-car-detail-btn"
@@ -408,7 +411,7 @@ function AdminCarListPage() {
                             <tr>
                                 <th style={{ width: 60 }}>STT</th>
                                 <th style={{ width: 120 }}>Hãng xe</th>
-                                <th style={{ width: 120 }}>Mẫu xe</th>
+                                <th className="mau-xe">Mẫu xe</th>
                                 <th style={{ width: 110 }}>Biển số</th>
                                 <th style={{ width: 220 }}>Địa chỉ</th>
                                 <th style={{ width: 110 }}>Giá thuê</th>
@@ -428,7 +431,7 @@ function AdminCarListPage() {
                                 <tr key={car.id}>
                                     <td>{idx + 1}</td>
                                     <td>{car.mauXe?.hangXe?.ten}</td>
-                                    <td>{car.mauXe?.ten}</td>
+                                    <td className="mau-xe">{car.mauXe?.ten}</td>
                                     <td>{car.bienSo}</td>
                                     <td>
                                         {car.diaChi?.soNha},{" "}
@@ -466,67 +469,72 @@ function AdminCarListPage() {
                                         </span>
                                     </td>
                                     <td>
-                                        <button
-                                            className="admin-car-detail-btn"
-                                            onClick={() =>
-                                                handleViewDetail(car)
-                                            }
+                                        <div
+                                            style={{ display: "flex", gap: 4 }}
                                         >
-                                            Chi tiết
-                                        </button>
-                                        {!hasContract(car.id) && (
                                             <button
-                                                className="admin-car-contract-btn"
-                                                style={{ marginLeft: 8 }}
+                                                className="admin-car-detail-btn"
                                                 onClick={() =>
-                                                    navigate(
-                                                        `/create-contract/${car.id}`,
-                                                        {
-                                                            state: {
-                                                                carInfo: {
-                                                                    hangXe: car
-                                                                        ?.mauXe
-                                                                        ?.hangXe
-                                                                        ?.ten,
-                                                                    mauXe: car
-                                                                        ?.mauXe
-                                                                        ?.ten,
-                                                                    soGhe: car
-                                                                        ?.mauXe
-                                                                        ?.soGhe,
-                                                                    truyenDong:
-                                                                        car.truyenDong,
-                                                                    moTa: car.moTa,
-                                                                    diaChi: `${car?.diaChi.soNha}, ${car?.diaChi.phuong}, ${car?.diaChi.quan}, ${car?.diaChi.tinh}`,
-                                                                    nhienLieu:
-                                                                        car?.loaiNhienLieu,
-                                                                    mucTieuThu:
-                                                                        car?.mucTieuThu,
-                                                                    gia: car.gia,
-                                                                    partner: {
-                                                                        id: car
-                                                                            ?.doiTac
-                                                                            ?.id,
-                                                                        ten: car
-                                                                            ?.doiTac
-                                                                            ?.hoTen,
-                                                                        sdt: car
-                                                                            ?.doiTac
-                                                                            ?.sdt,
-                                                                        diaChi: `${car?.diaChi.soNha}, ${car?.diaChi.phuong}, ${car?.diaChi.quan}, ${car?.diaChi.tinh}`,
-                                                                        email: car
-                                                                            ?.doiTac
-                                                                            ?.email,
-                                                                    },
-                                                                },
-                                                            },
-                                                        }
-                                                    )
+                                                    handleViewDetail(car)
                                                 }
                                             >
-                                                Tạo hợp đồng
+                                                Chi tiết
                                             </button>
-                                        )}
+                                            {!hasContract(car.id) && (
+                                                <button
+                                                    className="admin-car-contract-btn"
+                                                    style={{ marginLeft: 8 }}
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/create-contract/${car.id}`,
+                                                            {
+                                                                state: {
+                                                                    carInfo: {
+                                                                        hangXe: car
+                                                                            ?.mauXe
+                                                                            ?.hangXe
+                                                                            ?.ten,
+                                                                        mauXe: car
+                                                                            ?.mauXe
+                                                                            ?.ten,
+                                                                        soGhe: car
+                                                                            ?.mauXe
+                                                                            ?.soGhe,
+                                                                        truyenDong:
+                                                                            car.truyenDong,
+                                                                        moTa: car.moTa,
+                                                                        diaChi: `${car?.diaChi.soNha}, ${car?.diaChi.phuong}, ${car?.diaChi.quan}, ${car?.diaChi.tinh}`,
+                                                                        nhienLieu:
+                                                                            car?.loaiNhienLieu,
+                                                                        mucTieuThu:
+                                                                            car?.mucTieuThu,
+                                                                        gia: car.gia,
+                                                                        partner:
+                                                                            {
+                                                                                id: car
+                                                                                    ?.doiTac
+                                                                                    ?.id,
+                                                                                ten: car
+                                                                                    ?.doiTac
+                                                                                    ?.hoTen,
+                                                                                sdt: car
+                                                                                    ?.doiTac
+                                                                                    ?.sdt,
+                                                                                diaChi: `${car?.diaChi.soNha}, ${car?.diaChi.phuong}, ${car?.diaChi.quan}, ${car?.diaChi.tinh}`,
+                                                                                email: car
+                                                                                    ?.doiTac
+                                                                                    ?.email,
+                                                                            },
+                                                                    },
+                                                                },
+                                                            }
+                                                        )
+                                                    }
+                                                >
+                                                    Tạo hợp đồng
+                                                </button>
+                                            )}
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

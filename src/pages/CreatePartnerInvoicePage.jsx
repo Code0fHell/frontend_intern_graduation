@@ -11,10 +11,13 @@ function CreatePartnerInvoicePage() {
     const navigate = useNavigate();
     const { user } = useAuth();
     const contract = location.state?.contract;
-    // Thông tin hợp đồng cho thuê (HopDongChoThue)
     const hopDongChoThue = contract;
-    console.log("contract: " + JSON.stringify(hopDongChoThue));
-    // Tính ngày bắt đầu/kết thúc theo các hợp đồng thuê liên quan nếu cần
+    const phanTramCuaDoiTac = hopDongChoThue?.phanTramCuaDoiTac || 0;
+
+    // Tổng doanh thu lấy từ API
+    const [tongDoanhThu, setTongDoanhThu] = useState(0);
+    // Tổng tiền thanh toán cho đối tác
+    const [tongTien, setTongTien] = useState(0);
     const [ngayBatDau, setNgayBatDau] = useState(
         hopDongChoThue?.ngayBatDau
             ? new Date(hopDongChoThue.ngayBatDau).toISOString().slice(0, 10)
@@ -30,23 +33,7 @@ function CreatePartnerInvoicePage() {
     );
     const [phuongThuc, setPhuongThuc] = useState("Tiền mặt");
     const [ghiChu, setGhiChu] = useState("");
-    // Tổng doanh thu và phần trăm của đối tác
-    const tongDoanhThu = hopDongChoThue?.giaThue || 0;
-    const phanTramCuaDoiTac = hopDongChoThue?.phanTramCuaDoiTac || 0;
 
-    // Tính tổng tiền thanh toán cho đối tác
-    const tongTienThanhToan = Math.round(
-        (tongDoanhThu * phanTramCuaDoiTac) / 100
-    );
-
-    // Hiển thị tổng tiền và gửi đúng khi tạo hóa đơn
-    const [tongTien, setTongTien] = useState(tongTienThanhToan);
-
-    useEffect(() => {
-        setTongTien(Math.round((tongDoanhThu * phanTramCuaDoiTac) / 100));
-    }, [tongDoanhThu, phanTramCuaDoiTac]);
-
-    // Lấy tổng tiền từ API khi có đủ thông tin
     useEffect(() => {
         if (hopDongChoThue?.id && ngayBatDau && ngayKetThuc) {
             axios
@@ -64,13 +51,18 @@ function CreatePartnerInvoicePage() {
                     },
                 })
                 .then((res) => {
-                    if (!isNaN(Number(res.data))) {
-                        setTongTien(Number(res.data));
-                    }
+                    const doanhThu = Number(res.data) || 0;
+                    setTongDoanhThu(doanhThu);
+                    setTongTien(
+                        Math.round((doanhThu * phanTramCuaDoiTac) / 100)
+                    );
                 })
-                .catch(() => {});
+                .catch(() => {
+                    setTongDoanhThu(0);
+                    setTongTien(0);
+                });
         }
-    }, [hopDongChoThue?.id, ngayBatDau, ngayKetThuc]);
+    }, [hopDongChoThue?.id, ngayBatDau, ngayKetThuc, phanTramCuaDoiTac]);
 
     const [loading, setLoading] = useState(false);
 
@@ -85,9 +77,18 @@ function CreatePartnerInvoicePage() {
                     hopDongChoThueId: hopDongChoThue.id,
                     nhanVienId: user?.id,
                     tongTien,
-                    ngayThanhToan: new Date(ngayThanhToan).toISOString().replace("T", " ").slice(0, 19),
-                    ngayBatDau: new Date(ngayBatDau).toISOString().replace("T", " ").slice(0, 19),
-                    ngayKetThuc: new Date(ngayKetThuc).toISOString().replace("T", " ").slice(0, 19),
+                    ngayThanhToan: new Date(ngayThanhToan)
+                        .toISOString()
+                        .replace("T", " ")
+                        .slice(0, 19),
+                    ngayBatDau: new Date(ngayBatDau)
+                        .toISOString()
+                        .replace("T", " ")
+                        .slice(0, 19),
+                    ngayKetThuc: new Date(ngayKetThuc)
+                        .toISOString()
+                        .replace("T", " ")
+                        .slice(0, 19),
                     phuongThucThanhToan: phuongThuc,
                     ghiChu,
                 }
@@ -96,6 +97,7 @@ function CreatePartnerInvoicePage() {
                 state: {
                     invoice: res.data,
                     contract: hopDongChoThue,
+                    tongDoanhThu,
                     tongTien,
                     ngayThanhToan,
                     ngayBatDau,
@@ -118,7 +120,7 @@ function CreatePartnerInvoicePage() {
         <div className="contract-root">
             <Header />
             <div className="contract-detail-container contract-detail-large">
-                <h2>Tạo hóa đơn thanh lý hợp đồng với đối tác</h2>
+                <h2>Tạo hóa đơn cho đối tác</h2>
                 <form onSubmit={handleSubmit}>
                     <h3>I. Thông tin đối tác</h3>
                     <div style={{ marginBottom: 16 }}>

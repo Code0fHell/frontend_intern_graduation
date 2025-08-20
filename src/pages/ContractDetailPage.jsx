@@ -481,7 +481,7 @@ function ContractDetailPage() {
                         <div>
                             <div>Loại tài sản: {taiSan.loaiTaiSan}</div>
                             <div>
-                                Giá trị: {taiSan.giaTriTaiSan?.toLocaleString()}{" "}
+                                Giá trị: {taiSan.gia?.toLocaleString()}{" "}
                                 VNĐ
                             </div>
                             <div>Mô tả: {taiSan.moTa}</div>

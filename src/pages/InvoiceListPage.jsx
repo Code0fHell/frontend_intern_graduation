@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 function InvoiceListPage() {
     // State cho hóa đơn khách hàng
@@ -22,6 +23,8 @@ function InvoiceListPage() {
         phuongThuc: "",
     });
 
+    const navigate = useNavigate();
+
     // Lấy hóa đơn khách hàng
     useEffect(() => {
         axios
@@ -35,6 +38,7 @@ function InvoiceListPage() {
             .get("http://localhost:8080/hoa-don-doi-tac/all")
             .then((res) => setPartnerInvoices(res.data || []));
     }, []);
+    console.log("partner : " + JSON.stringify(partnerInvoices));
 
     // Lọc hóa đơn khách hàng
     const filteredCustomerInvoices = customerInvoices.filter((inv) => {
@@ -262,8 +266,10 @@ function InvoiceListPage() {
                         {filteredPartnerInvoices.map((inv, idx) => (
                             <tr key={inv.id}>
                                 <td>{idx + 1}</td>
-                                <td>{inv.doiTac?.hoTen}</td>
-                                <td>{inv.doiTac?.sdt}</td>
+                                <td>
+                                    {inv?.hopDongChoThue?.oto?.doiTac?.hoTen}
+                                </td>
+                                <td>{inv?.hopDongChoThue?.oto?.doiTac?.sdt}</td>
                                 <td>
                                     {inv.ngayThanhToan
                                         ? new Date(

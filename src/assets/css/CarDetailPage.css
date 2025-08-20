@@ -8,35 +8,42 @@
 
 .car-detail-main {
     flex: 1;
-    max-width: 1200px;
+    max-width: 1200px !important;
     margin: 0 auto;
-    padding: 32px 16px 48px 16px;
+    padding: 32px 16px 48px 16px !important;
 }
 
 .car-detail-content {
     display: flex;
-    gap: 40px;
-    align-items: flex-start;
+    gap: 32px;
+    margin-top: 24px;
+    min-width: 1200px; 
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .car-detail-left {
-    flex: 1.2;
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-    padding: 32px 28px 28px 28px;
+    flex: 1;
+    min-width: 0;
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 24px 22px;
+    box-shadow: 0 2px 12px #e0e7ef;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
 .car-detail-right {
-    flex: 0.9;
+    flex: 0.8;
+    min-width: 260px;
     background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-    padding: 28px 24px 24px 24px;
-    min-width: 340px;
-    max-width: 400px;
-    position: sticky;
-    top: 32px;
+    border-radius: 12px;
+    padding: 22px 18px;
+    box-shadow: 0 2px 12px #e0e7ef;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
 /* Car Image */
@@ -57,60 +64,149 @@
 .car-detail-title {
     font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    color: #000000;
     display: flex;
     align-items: center;
     gap: 12px;
-    justify-content: space-between;
 }
 
 .car-detail-star {
-    color: #ffc107;
     font-size: 1.2rem;
+    color: #f59e42;
+    margin-left: 8px;
     font-weight: 600;
 }
 
 /* Sections */
 .car-detail-section {
-    margin-bottom: 22px;
+    margin-bottom: 0;
 }
 
 .car-detail-label {
-    font-size: 1.08rem;
     font-weight: 600;
-    margin-bottom: 7px;
-    color: #222;
+    color: #000000;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
 }
 
 .car-detail-features {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
     list-style: none;
     padding: 0;
-    margin: 0;
+}
+
+.car-detail-features li {
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 15px;
+    color: #334155;
+    min-width: 120px;
+    box-shadow: 0 1px 4px #e0e7ef;
     display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    color: #444;
-    font-size: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-.car-detail-section ul {
-    padding-left: 18px;
-    margin: 0;
+.car-detail-feature-title {
+    font-weight: 500;
+    color: #2563eb;
+    font-size: 14px;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
-.car-detail-section li {
-    margin-bottom: 4px;
+/* Mô tả xe: ẩn phần thừa nếu quá 3 dòng */
+.car-detail-desc {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.6;
+    max-height: 4.8em; /* 3 dòng x 1.6em */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.3s;
 }
 
-/* Tài sản cầm cố */
-.car-detail-section label {
-    display: block;
-    margin-bottom: 8px;
+.car-detail-desc.expanded {
+    max-height: none;
+}
+
+.car-detail-desc-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2em;
+    background: linear-gradient(to bottom, rgba(248, 250, 252, 0), #f8fafc 90%);
+    pointer-events: none;
+}
+
+.car-detail-desc-btn {
+    margin-top: 6px;
+    background: none;
+    border: none;
+    color: #2563eb;
     font-weight: 500;
     cursor: pointer;
+    font-size: 15px;
+    padding: 0;
 }
-.car-detail-section input[type="radio"] {
-    margin-right: 8px;
+
+/* Tiện nghi: grid 3 cột, tối đa 2 hàng */
+.car-detail-tiennghi-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px 18px;
+    margin-top: 8px;
+    margin-bottom: 0;
+    max-height: 112px; /* 2 hàng x 56px */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.3s;
+}
+
+.car-detail-tiennghi-list.expanded {
+    max-height: none;
+}
+
+.car-detail-tiennghi-item {
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 15px;
+    color: #166534;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 1px 4px #e0e7ef;
+    min-height: 32px;
+}
+
+.car-detail-tiennghi-btn {
+    margin-top: 6px;
+    background: none;
+    border: none;
+    color: #2563eb;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 0;
+}
+
+.car-detail-tiennghi-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 32px;
+    background: linear-gradient(to bottom, rgba(248, 250, 252, 0), #f8fafc 90%);
+    pointer-events: none;
 }
 
 /* Right column - Tổng tiền */
@@ -131,7 +227,7 @@
 
 /* Date/time input */
 .car-detail-section input[type="datetime-local"] {
-    width: 100%;
+    display: block;
     padding: 8px 12px;
     border: 1.5px solid #ddd;
     border-radius: 8px;
@@ -144,7 +240,7 @@
 /* Đơn giá thuê */
 .car-detail-section > div:last-child {
     font-weight: 600;
-    color: #00b894;
+    color: #5d5d5d;
     margin-top: 2px;
 }
 
@@ -195,7 +291,7 @@
 }
 
 /* Responsive */
-@media (max-width: 1000px) {
+@media (max-width: 1490px) {
     .car-detail-content {
         flex-direction: column;
         gap: 24px;

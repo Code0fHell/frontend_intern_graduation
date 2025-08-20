@@ -87,7 +87,7 @@ function PartnerContractListPage() {
         <>
             <Header />
             <div className="partner-contract-list-container">
-                <h2>Danh sách hợp đồng cho thuê</h2>
+                <h2>Danh sách hợp đồng với đối tác</h2>
                 {/* Bộ lọc mở rộng */}
                 <div
                     className="contract-filter-row"

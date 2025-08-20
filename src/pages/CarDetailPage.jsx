@@ -22,6 +22,10 @@ function CarDetailPage() {
     const [ngayNhan, setNgayNhan] = useState("");
     const [ngayTra, setNgayTra] = useState("");
 
+    // State cho mô tả và tiện nghi mở rộng
+    const [descExpanded, setDescExpanded] = useState(false);
+    const [tienNghiExpanded, setTienNghiExpanded] = useState(false);
+
     // Tính số ngày thuê và tổng tiền thuê xe
     let soNgayThue = 0;
     let tongTien = 0;
@@ -41,9 +45,9 @@ function CarDetailPage() {
         axios
             .get(`http://localhost:8080/api/renting/cars/${id}/images/thumnail`)
             .then((res) => {
-                const filteredImages = res.data
-                    .map((filename) => `http://localhost:8080/images/${filename}`
-                    );
+                const filteredImages = res.data.map(
+                    (filename) => `http://localhost:8080/images/${filename}`
+                );
                 setImages(filteredImages);
             })
             .catch(() => setImages([]));
@@ -137,25 +141,96 @@ function CarDetailPage() {
                         <div className="car-detail-section">
                             <div className="car-detail-label">Đặc điểm</div>
                             <ul className="car-detail-features">
-                                <li>Truyền động: {carInfo.truyenDong}</li>
-                                <li>Số ghế: {carInfo.soGhe}</li>
-                                <li>Nhiên liệu: {carInfo.nhienLieu}</li>
-                                <li>Tiêu hao: {carInfo.mucTieuThu}L/100km</li>
+                                <li>
+                                    <span className="car-detail-feature-title">
+                                        Truyền động
+                                    </span>
+                                    {carInfo.truyenDong}
+                                </li>
+                                <li>
+                                    <span className="car-detail-feature-title">
+                                        Số ghế
+                                    </span>
+                                    {carInfo.soGhe}
+                                </li>
+                                <li>
+                                    <span className="car-detail-feature-title">
+                                        Nhiên liệu
+                                    </span>
+                                    {carInfo.nhienLieu}
+                                </li>
+                                <li>
+                                    <span className="car-detail-feature-title">
+                                        Tiêu hao
+                                    </span>
+                                    {carInfo.mucTieuThu}L/100km
+                                </li>
                             </ul>
                         </div>
                         <div className="car-detail-section">
                             <div className="car-detail-label">Mô tả</div>
-                            <div>{carInfo.moTa}</div>
+                            <div
+                                className={
+                                    "car-detail-desc" +
+                                    (descExpanded ? " expanded" : "")
+                                }
+                                style={{ position: "relative" }}
+                            >
+                                {carInfo.moTa || "Chưa có mô tả"}
+                                {!descExpanded && (
+                                    <div className="car-detail-desc-fade"></div>
+                                )}
+                            </div>
+                            {carInfo.moTa &&
+                                carInfo.moTa.length > 120 && ( // ước lượng 3 dòng
+                                    <button
+                                        className="car-detail-desc-btn"
+                                        onClick={() =>
+                                            setDescExpanded((v) => !v)
+                                        }
+                                    >
+                                        {descExpanded ? "Thu gọn" : "Xem thêm"}
+                                    </button>
+                                )}
                         </div>
                         <div className="car-detail-section">
                             <div className="car-detail-label">
                                 Các tiện nghi khác
                             </div>
-                            <ul>
+                            <div
+                                className={
+                                    "car-detail-tiennghi-list" +
+                                    (tienNghiExpanded ? " expanded" : "")
+                                }
+                                style={{ position: "relative" }}
+                            >
+                                {tienNghi.length === 0 && (
+                                    <span style={{ color: "#888" }}>
+                                        Chưa có tiện nghi
+                                    </span>
+                                )}
                                 {tienNghi.map((t, i) => (
-                                    <li key={i}>{t}</li>
+                                    <div
+                                        className="car-detail-tiennghi-item"
+                                        key={i}
+                                    >
+                                        {t}
+                                    </div>
                                 ))}
-                            </ul>
+                                {!tienNghiExpanded && tienNghi.length > 6 && (
+                                    <div className="car-detail-tiennghi-fade"></div>
+                                )}
+                            </div>
+                            {tienNghi.length > 6 && (
+                                <button
+                                    className="car-detail-tiennghi-btn"
+                                    onClick={() =>
+                                        setTienNghiExpanded((v) => !v)
+                                    }
+                                >
+                                    {tienNghiExpanded ? "Thu gọn" : "Xem thêm"}
+                                </button>
+                            )}
                         </div>
                         {/* Comment Section */}
                         <div className="car-detail-section">
